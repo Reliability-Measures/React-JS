@@ -1,6 +1,8 @@
 import React from 'react'
 import './App.css'
-import Enterlist from './components/enterlist'
+import EnterlistSTD from './components/enterlistSTD'
+import EnterlistPropo from './components/enterlistPropo'
+import EnterlistSum from './components/enterlistSum'
 
 function App() {
   return (
@@ -8,7 +10,9 @@ function App() {
         <div className="App-header">
           ReliabilityMeasures
         </div>
-        <Enterlist />
+        <EnterlistSTD />
+        <EnterlistSum />
+        <EnterlistPropo />
         <a
           className="App-link"
           href="https://github.com/ThahaShahzad/ReliabilityMeasures"
