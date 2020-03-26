@@ -24,7 +24,7 @@ function App() {
             Github for this project
           </a>
         </div>
-         <Navigation />
+         <div><Navigation /></div>
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/std" component={EnterlistSTD} />
