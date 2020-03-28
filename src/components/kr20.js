@@ -47,6 +47,9 @@ function Kr20() {
           />
         </form>
         <button onClick={handleclick}>Calculate Kr20</button>
+        <div>
+          {JSON.stringify(itemresponses)}
+        </div>
         <p className="data" id="kr20"></p>
     </div>
   )
