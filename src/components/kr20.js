@@ -25,10 +25,10 @@ function Kr20() {
   },[itemresponses])
 
   const handleclick = e =>{
-    axios.post('http://127.0.0.1:5000/kr20/' + JSON.stringify(kr20json))
+    axios.post('http://visonics.net/kr20/' + JSON.stringify(kr20json))
     .then(function (response) {
       console.log(response.data, response.data);
-      document.getElementById("kr20").innerHTML = JSON.stringify(response.data);
+      document.getElementById("kr20").innerHTML = "Kr20 = " + JSON.stringify(response.data.KR20);
     })
     .catch(function (error) {
       console.log(error);

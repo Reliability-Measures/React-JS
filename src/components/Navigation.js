@@ -9,6 +9,7 @@ const Navigation = () => {
       <NavLink to="/sum">Summation</NavLink>
       <NavLink to="/prop">Proportion</NavLink>
       <NavLink to="/kr20">Kr20</NavLink>
+      <NavLink to="/pbcc">Pbcc</NavLink>
     </div>
   );
 };

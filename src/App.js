@@ -9,6 +9,7 @@ import Kr20 from './components/kr20'
 import Home from './components/Home'
 import Error from './components/Error'
 import Navigation from './components/Navigation'
+import Pbcc from './components/pbcc'
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path="/sum" component={EnterlistSum} />
             <Route path="/prop" component={EnterlistPropo} />
             <Route path="/kr20" component={Kr20} />
+            <Route path="/pbcc" component={Pbcc} />
             <Route component={Error} />
           </Switch>
       </div>

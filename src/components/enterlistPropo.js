@@ -12,7 +12,7 @@ function EnterlistPropo() {
     let numbers = newItem.split(",").map(Number);
     let userlist = {twoElements: [numbers[0], numbers[1]]};
     document.getElementById("dataPropo").innerHTML = JSON.stringify(userlist);
-    axios.post('http://127.0.0.1:5000/proportion/' + JSON.stringify(userlist))
+    axios.post('http://visonics.net/proportion/' + JSON.stringify(userlist))
     .then(function (response) {
       console.log(response.data, response.data.proportion);
       document.getElementById("proportion").innerHTML = JSON.stringify(response.data);
