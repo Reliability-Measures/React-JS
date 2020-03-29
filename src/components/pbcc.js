@@ -28,7 +28,7 @@ function Pbcc() {
     axios.post('http://visonics.net/pbcc/' + JSON.stringify(pbccjson))
     .then(function (response) {
       console.log(response.data, response.data);
-      document.getElementById("pbcc").innerHTML = "Pbcc = " + JSON.stringify(response.data.Pbcc);
+      document.getElementById("pbcc").innerHTML = "Pbcc = " + JSON.stringify(response.data.pbcc);
     })
     .catch(function (error) {
       console.log(error);
