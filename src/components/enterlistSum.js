@@ -13,7 +13,7 @@ function EnterlistSum() {
     
     let userlist = {elements: numbers};
     document.getElementById("dataSum").innerHTML = JSON.stringify(userlist);
-    axios.post('http://127.0.0.1:5000/summation/' + JSON.stringify(userlist))
+    axios.post('http://visonics.net/summation/' + JSON.stringify(userlist))
     .then(function (response) {
       console.log(response.data, response.data.sum);
       document.getElementById("sum").innerHTML = JSON.stringify(response.data);

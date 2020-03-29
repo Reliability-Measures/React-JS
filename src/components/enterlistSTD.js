@@ -13,7 +13,7 @@ function EnterlistSTD() {
     
     let userlist = {elements: numbers};
     document.getElementById("dataSTD").innerHTML = JSON.stringify(userlist);
-    axios.post('http://127.0.0.1:5000/std/' + JSON.stringify(userlist))
+    axios.post('http://visonics.net/std/' + JSON.stringify(userlist))
     .then(function (response) {
       console.log(response.data, response.data.STD);
       document.getElementById("std").innerHTML = JSON.stringify(response.data);
