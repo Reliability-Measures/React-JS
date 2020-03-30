@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import './components.css'
 
 
 function Pbcc() {
@@ -25,7 +24,7 @@ function Pbcc() {
   },[itemresponses])
 
   const handleclick = e =>{
-    axios.post('http://visonics.net/pbcc/' + JSON.stringify(pbccjson))
+    axios.post('http://visonics.net/rm/pbcc/' + JSON.stringify(pbccjson))
     .then(function (response) {
       console.log(response.data, response.data);
       document.getElementById("pbcc").innerHTML = "Pbcc = " + JSON.stringify(response.data.pbcc);
@@ -37,7 +36,7 @@ function Pbcc() {
 
 
   return (
-    <div>
+    <div className="mbody">
         <form onSubmit={handleSubmit}>
           <input
             type="textarea"
@@ -50,7 +49,7 @@ function Pbcc() {
         <div>
           {JSON.stringify(itemresponses)}
         </div>
-        <p className="data" id="pbcc"></p>
+        <p id="pbcc"></p>
     </div>
   )
 }  

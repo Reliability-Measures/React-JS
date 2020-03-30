@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import './components.css'
-
+import { Button, Form } from 'react-bootstrap';
 
 function Kr20() {
   const [item, setitem] = useState("")
@@ -25,7 +24,7 @@ function Kr20() {
   },[itemresponses])
 
   const handleclick = e =>{
-    axios.post('http://visonics.net/kr20/' + JSON.stringify(kr20json))
+    axios.post('http://visonics.net/rm/kr20/' + JSON.stringify(kr20json))
     .then(function (response) {
       console.log(response.data, response.data);
       document.getElementById("kr20").innerHTML = "Kr20 = " + JSON.stringify(response.data.KR20);
@@ -37,20 +36,20 @@ function Kr20() {
 
 
   return (
-    <div>
-        <form onSubmit={handleSubmit}>
+    <div className="mbody">
+        <Form onSubmit={handleSubmit}>
           <input
             type="textarea"
             value={item}
             placeholder="itemresponses"
             onChange={e => setitem(e.target.value)}
           />
-        </form>
-        <button onClick={handleclick}>Calculate Kr20</button>
+        </Form>
+        <Button onClick={handleclick}>Calculate Kr20</Button>
         <div>
           {JSON.stringify(itemresponses)}
         </div>
-        <p className="data" id="kr20"></p>
+        <p id="kr20"></p>
     </div>
   )
 }  

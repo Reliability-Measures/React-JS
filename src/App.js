@@ -11,22 +11,17 @@ import Error from './components/Error'
 import Navigation from './components/Navigation'
 import Pbcc from './components/pbcc'
 
+
+
 function App() {
   return (
     <BrowserRouter>
-      <div className="App">
-        <div className="App-header">
-          ReliabilityMeasures
-          <a
-          className="App-link"
-          href="https://github.com/Reliability-Measures"
-          target="_blank"
-          rel="noopener noreferrer"
-          >
-            Github for this project
-          </a>
-        </div>
-         <div><Navigation /></div>
+      <div className="App container">
+        <h1 className="App-header">
+          Reliability Measures Microservices
+        </h1>
+        <div><Navigation /></div>
+        <body className="body">
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/std" component={EnterlistSTD} />
@@ -36,6 +31,10 @@ function App() {
             <Route path="/pbcc" component={Pbcc} />
             <Route component={Error} />
           </Switch>
+        </body>
+        <footer className="footer">
+        &copy; 2020 reliabilitymeasures.com
+        </footer>
       </div>
     </BrowserRouter>
   )

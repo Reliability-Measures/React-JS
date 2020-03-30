@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import './components.css'
 
 
 function EnterlistPropo() {
@@ -12,7 +11,7 @@ function EnterlistPropo() {
     let numbers = newItem.split(",").map(Number);
     let userlist = {twoElements: [numbers[0], numbers[1]]};
     document.getElementById("dataPropo").innerHTML = JSON.stringify(userlist);
-    axios.post('http://visonics.net/proportion/' + JSON.stringify(userlist))
+    axios.post('http://visonics.net/rm/proportion/' + JSON.stringify(userlist))
     .then(function (response) {
       console.log(response.data, response.data.proportion);
       document.getElementById("proportion").innerHTML = JSON.stringify(response.data);
@@ -23,7 +22,7 @@ function EnterlistPropo() {
 };
 
   return (
-    <div>
+    <div className="mbody">
       <p>Enter two numbers separated by a comma and press Enter to get the proportion.</p>
         <form onSubmit={handleSubmit}>
           <input
@@ -33,8 +32,8 @@ function EnterlistPropo() {
             onChange={e => setNewItem(e.target.value)}
           />
         </form>
-        <p className="data" id="dataPropo"></p>
-        <p className="data" id="proportion"></p>
+        <p id="dataPropo"></p>
+        <p id="proportion"></p>
 
     </div>
   )

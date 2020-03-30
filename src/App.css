@@ -1,33 +1,21 @@
 .App {
   text-align: center;
-  background-color:lightgray;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.body {
+  background-color: darkorchid;
 }
-
+.footer {
+  position: absolute;
+  bottom: 0;
+  
+}
 
 .App-header {
-  min-height: 20vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color:black;
-  font-style: italic;
-  font-family: monospace;
-}
-a{
-    text-decoration: none;
-    color:blue;
-    padding: 10px 10px;
-    border:none;
-}
-a:hover{
-    color:red;
+  color: grey;
+  background-color: #122eaa;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  
+
 }
 
 

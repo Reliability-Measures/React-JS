@@ -1,4 +1,11 @@
-.data {
-    color:black;
-    background-color: white;
+.mbody {
+    text-align: center;
+}
+
+
+
+
+.navbarc {
+    position:absolute;
+    left: 0;
 }
