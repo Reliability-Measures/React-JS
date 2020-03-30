@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Button, Form } from 'react-bootstrap';
+
 
 function Kr20() {
   const [item, setitem] = useState("")
@@ -37,15 +37,18 @@ function Kr20() {
 
   return (
     <div className="mbody">
-        <Form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
+          <br></br>
+          Enter student scores: &nbsp; 
           <input
             type="textarea"
             value={item}
-            placeholder="itemresponses"
+            placeholder=""
             onChange={e => setitem(e.target.value)}
           />
-        </Form>
-        <Button onClick={handleclick}>Calculate Kr20</Button>
+        </form>
+        <br></br>
+        <button className="btn btn-success" onClick={handleclick}>Calculate Kr20</button>
         <div>
           {JSON.stringify(itemresponses)}
         </div>

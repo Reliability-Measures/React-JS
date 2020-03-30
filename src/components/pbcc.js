@@ -38,14 +38,17 @@ function Pbcc() {
   return (
     <div className="mbody">
         <form onSubmit={handleSubmit}>
+          <br></br>
+          Enter student scores: &nbsp; 
           <input
             type="textarea"
             value={item}
-            placeholder="itemresponses"
+            placeholder=""
             onChange={e => setitem(e.target.value)}
           />
         </form>
-        <button onClick={handleclick}>Calculate Pbcc</button>
+        <br></br>
+        <button className="btn btn-success" onClick={handleclick}>Calculate Pbcc</button>
         <div>
           {JSON.stringify(itemresponses)}
         </div>

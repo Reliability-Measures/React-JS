@@ -2,20 +2,22 @@
   text-align: center;
 }
 .body {
-  background-color: darkorchid;
+  height: auto;
+  width: auto;
 }
 .footer {
+  background-color:rgb(185, 132, 77);
+  width: 100%;
   position: absolute;
   bottom: 0;
   
 }
 
 .App-header {
-  color: grey;
-  background-color: #122eaa;
+  color: rgb(185, 132, 77);
+  font-size: xx-large;
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  
-
+  height: 60px;
 }
 
 
@@ -25,4 +27,9 @@
   color: #61dafb;
 }
 
-
+.gitlink {
+  color: white;
+}
+.gitlink a:hover{
+  text-decoration: none;
+}

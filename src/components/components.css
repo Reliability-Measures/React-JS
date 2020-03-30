@@ -2,10 +2,17 @@
     text-align: center;
 }
 
+.navcol {
+    background-color: rgb(185, 132, 77);
+}
 
-
-
-.navbarc {
-    position:absolute;
+.navbut {
+    position: absolute;
     left: 0;
+}
+
+.nac {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
 }

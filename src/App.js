@@ -10,16 +10,17 @@ import Home from './components/Home'
 import Error from './components/Error'
 import Navigation from './components/Navigation'
 import Pbcc from './components/pbcc'
+import Testdata from './components/Testdata'
 
 
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="App container">
-        <h1 className="App-header">
+      <div className="App">
+        <header className="App-header">
           Reliability Measures Microservices
-        </h1>
+        </header>
         <div><Navigation /></div>
         <body className="body">
           <Switch>
@@ -29,11 +30,21 @@ function App() {
             <Route path="/prop" component={EnterlistPropo} />
             <Route path="/kr20" component={Kr20} />
             <Route path="/pbcc" component={Pbcc} />
+            <Route path="/testdata" component={Testdata} />
             <Route component={Error} />
           </Switch>
         </body>
         <footer className="footer">
-        &copy; 2020 reliabilitymeasures.com
+          &copy;  Reliability Measures - All Rights Reserved.
+          <br></br>
+          <a
+          className="gitlink"
+          href="https://github.com/Reliability-Measures"
+          target="_blank"
+          rel="noopener noreferrer"
+          >
+            Github for this project
+          </a>
         </footer>
       </div>
     </BrowserRouter>
