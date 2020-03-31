@@ -11,7 +11,7 @@ import Error from './components/Error'
 import Navigation from './components/Navigation'
 import Pbcc from './components/pbcc'
 import Testdata from './components/Testdata'
-
+import Test from './components/Test'
 
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
           Reliability Measures Microservices
         </header>
         <div><Navigation /></div>
-        <body className="body">
+        
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/std" component={EnterlistSTD} />
@@ -31,9 +31,10 @@ function App() {
             <Route path="/kr20" component={Kr20} />
             <Route path="/pbcc" component={Pbcc} />
             <Route path="/testdata" component={Testdata} />
+            <Route path="/test" component={Test} />
             <Route component={Error} />
           </Switch>
-        </body>
+       
         <footer className="footer">
           &copy;  Reliability Measures - All Rights Reserved.
           <br></br>
