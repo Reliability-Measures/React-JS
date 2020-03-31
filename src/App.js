@@ -35,7 +35,7 @@ function App() {
             <Route component={Error} />
           </Switch>
        
-        <footer className="footer">
+        {/* <footer className="footer">
           &copy;  Reliability Measures - All Rights Reserved.
           <br></br>
           <a
@@ -46,7 +46,7 @@ function App() {
           >
             Github for this project
           </a>
-        </footer>
+        </footer> */}
       </div>
     </BrowserRouter>
   )
