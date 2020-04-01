@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import './components.css'
 
 
 function EnterlistSum() {
@@ -13,7 +12,7 @@ function EnterlistSum() {
     
     let userlist = {elements: numbers};
     document.getElementById("dataSum").innerHTML = JSON.stringify(userlist);
-    axios.post('http://visonics.net/summation/' + JSON.stringify(userlist))
+    axios.post('http://visonics.net/rm/summation/' + JSON.stringify(userlist))
     .then(function (response) {
       console.log(response.data, response.data.sum);
       document.getElementById("sum").innerHTML = JSON.stringify(response.data);
@@ -24,7 +23,7 @@ function EnterlistSum() {
 };
 
   return (
-    <div>
+    <div className="mbody">
       <p>Enter list separated by a comma and press Enter to get the sum.</p>
         <form onSubmit={handleSubmit}>
           <input
@@ -34,8 +33,8 @@ function EnterlistSum() {
             onChange={e => setNewItem(e.target.value)}
           />
         </form>
-        <p className="data" id="dataSum"></p>
-        <p className="data" id="sum"></p>
+        <p id="dataSum"></p>
+        <p id="sum"></p>
 
     </div>
   )

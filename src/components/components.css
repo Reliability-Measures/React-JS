@@ -1,4 +1,18 @@
-.data {
-    color:black;
-    background-color: white;
+.mbody {
+    text-align: center;
+}
+
+.navcol {
+    background-color: rgb(185, 132, 77);
+}
+
+.navbut {
+    position: absolute;
+    left: 0;
+}
+
+.nac {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
 }

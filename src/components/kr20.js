@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import './components.css'
 
 
 function Kr20() {
@@ -25,7 +24,7 @@ function Kr20() {
   },[itemresponses])
 
   const handleclick = e =>{
-    axios.post('http://visonics.net/kr20/' + JSON.stringify(kr20json))
+    axios.post('http://visonics.net/rm/kr20/' + JSON.stringify(kr20json))
     .then(function (response) {
       console.log(response.data, response.data);
       document.getElementById("kr20").innerHTML = "Kr20 = " + JSON.stringify(response.data.KR20);
@@ -37,20 +36,23 @@ function Kr20() {
 
 
   return (
-    <div>
+    <div className="mbody">
         <form onSubmit={handleSubmit}>
+          <br></br>
+          Enter student scores: &nbsp; 
           <input
             type="textarea"
             value={item}
-            placeholder="itemresponses"
+            placeholder=""
             onChange={e => setitem(e.target.value)}
           />
         </form>
-        <button onClick={handleclick}>Calculate Kr20</button>
+        <br></br>
+        <button className="btn btn-success" onClick={handleclick}>Calculate Kr20</button>
         <div>
           {JSON.stringify(itemresponses)}
         </div>
-        <p className="data" id="kr20"></p>
+        <p id="kr20"></p>
     </div>
   )
 }  

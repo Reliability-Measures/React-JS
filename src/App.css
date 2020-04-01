@@ -1,33 +1,23 @@
 .App {
   text-align: center;
-  background-color:lightgray;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.body {
+  height: auto;
+  width: auto;
 }
-
+.footer {
+  background-color:rgb(185, 132, 77);
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  
+}
 
 .App-header {
-  min-height: 20vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color:black;
-  font-style: italic;
-  font-family: monospace;
-}
-a{
-    text-decoration: none;
-    color:blue;
-    padding: 10px 10px;
-    border:none;
-}
-a:hover{
-    color:red;
+  color: rgb(185, 132, 77);
+  font-size: xx-large;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  height: 60px;
 }
 
 
@@ -37,4 +27,9 @@ a:hover{
   color: #61dafb;
 }
 
-
+.gitlink {
+  color: white;
+}
+.gitlink a:hover{
+  text-decoration: none;
+}

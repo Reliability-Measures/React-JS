@@ -10,23 +10,19 @@ import Home from './components/Home'
 import Error from './components/Error'
 import Navigation from './components/Navigation'
 import Pbcc from './components/pbcc'
+import Testdata from './components/Testdata'
+
+
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <div className="App-header">
-          ReliabilityMeasures
-          <a
-          className="App-link"
-          href="https://github.com/Reliability-Measures"
-          target="_blank"
-          rel="noopener noreferrer"
-          >
-            Github for this project
-          </a>
-        </div>
-         <div><Navigation /></div>
+        <header className="App-header">
+          Reliability Measures Microservices
+        </header>
+        <div><Navigation /></div>
+        <body className="body">
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/std" component={EnterlistSTD} />
@@ -34,8 +30,22 @@ function App() {
             <Route path="/prop" component={EnterlistPropo} />
             <Route path="/kr20" component={Kr20} />
             <Route path="/pbcc" component={Pbcc} />
+            <Route path="/testdata" component={Testdata} />
             <Route component={Error} />
           </Switch>
+        </body>
+        <footer className="footer">
+          &copy;  Reliability Measures - All Rights Reserved.
+          <br></br>
+          <a
+          className="gitlink"
+          href="https://github.com/Reliability-Measures"
+          target="_blank"
+          rel="noopener noreferrer"
+          >
+            Github for this project
+          </a>
+        </footer>
       </div>
     </BrowserRouter>
   )
