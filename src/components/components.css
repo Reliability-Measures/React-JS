@@ -20,6 +20,17 @@
 .tablewidth {
     width: 50%;
 }
+.dropzone {
+    text-align: center;
+    padding: 10px;
+    border: 3px dashed #eeeeee;
+    background-color: lightgrey;
+    margin-bottom: 2px;
+    width: 50%;
+}
 
+ul.ba {
+    list-style-type: none;
+}
 
 

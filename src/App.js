@@ -6,9 +6,9 @@ import EnterlistSTD from './components/enterlistSTD'
 import EnterlistPropo from './components/enterlistPropo'
 import EnterlistSum from './components/enterlistSum'
 import Kr20 from './components/kr20'
-import Home from './components/Home'
+//import Home from './components/Home'
 import Error from './components/Error'
-import Navigation from './components/Navigation'
+//import Navigation from './components/Navigation'
 import Pbcc from './components/pbcc'
 import Testdata from './components/Testdata'
 import Test from './components/Test'
@@ -21,10 +21,10 @@ function App() {
         <header className="App-header">
           Reliability Measures Microservices
         </header>
-        <div><Navigation /></div>
+        {/* <div><Navigation /></div> */}
         
           <Switch>
-            <Route path="/" component={Home} exact />
+            <Route path="/" component={Test} exact />
             <Route path="/std" component={EnterlistSTD} />
             <Route path="/sum" component={EnterlistSum} />
             <Route path="/prop" component={EnterlistPropo} />
