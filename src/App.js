@@ -11,27 +11,27 @@ import Error from './components/Error'
 //import Navigation from './components/Navigation'
 import Pbcc from './components/pbcc'
 import Testdata from './components/Testdata'
-import Test from './components/Test'
-
+import Analyze from './components/Analyze'
+import {get_config} from './components/config'
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <header className="App-header">
-          Reliability Measures Microservices
+            {get_config('application_name')}
         </header>
         {/* <div><Navigation /></div> */}
         
           <Switch>
-            <Route path="/" component={Test} exact />
+            <Route path="/" component={Analyze} exact />
             <Route path="/std" component={EnterlistSTD} />
             <Route path="/sum" component={EnterlistSum} />
             <Route path="/prop" component={EnterlistPropo} />
             <Route path="/kr20" component={Kr20} />
             <Route path="/pbcc" component={Pbcc} />
             <Route path="/testdata" component={Testdata} />
-            <Route path="/test" component={Test} />
+            <Route path="/analyze" component={Analyze} />
             <Route component={Error} />
           </Switch>
        

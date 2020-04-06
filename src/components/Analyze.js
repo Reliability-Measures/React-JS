@@ -4,11 +4,12 @@ import './components.css'
 import csv from "csv";
 import Dropzone from 'react-dropzone'
 //import MaterialTable from "material-table"
-import {get_service_config, get_config, convertToArrayOfObjects} from './config'
+import {get_service_config, get_config, convertToArrayOfObjects, saveJSON} from './config'
 
-export default function Test() {
+export default function Analyze() {
   const [fileNames, setFileNames] = useState([]);
   const [fileNamess, setFileNamess] = useState([]);
+  // const [jsonData, setJsonData] = useState({data: []});
     // const [state, setState] = useState({
     //     columns: [
     //       { title: "Graduation Year", field: 'gradYear'},
@@ -69,9 +70,16 @@ export default function Test() {
         //   })
       }
 
-
+      const handleExport = e =>{
+        saveJSON("jsonStr", "downloadJSON")
+      };
+      const handleExportResult = e =>{
+        saveJSON("resultStr", "downloadResult")
+      };
       // Csv upload
       const handleDropC = acceptedFiles =>{
+        document.getElementById("btn1").style.display = "none";
+        document.getElementById("btn2").style.display = "none";
         setFileNames(acceptedFiles.map(file => file.name))
         const reader = new FileReader();
         reader.onabort = () => console.log("file reading was aborted");
@@ -89,7 +97,7 @@ export default function Test() {
                  let keys = Object.keys(item)
                  let items = []
                  keys.forEach(function get_key(key) {
-                  console.log(key, parseInt(key)) 
+                  //console.log(key, parseInt(key))
                   if (!(isNaN(parseInt(key)))) {
                     items.push({item_id: parseInt(key), response: parseInt(item[key])})
                     delete item[key]
@@ -100,7 +108,14 @@ export default function Test() {
               console.log(obj)
               console.log(acceptedFiles[0].name)
               let jsonStr = {student_list: obj, exam_info: {name: acceptedFiles[0].name.split(".")[0]} }
-              axios.post(get_config('test_url') + get_service_config(6, 'api_method') + JSON.stringify(jsonStr))
+/*              setJsonData(prevStat => ({
+               ...prevStat,
+               data:json_obj
+              })
+             ,[jsonData.data])*/
+
+              console.log(jsonStr)
+              axios.get(get_config('test_url') + get_service_config(6, 'api_method') + JSON.stringify(jsonStr))
               .then(function (response) {
                 console.log(response.data.analysis);
                 console.log(response.data.input);
@@ -109,10 +124,14 @@ export default function Test() {
                 document.getElementById("analzitemdiff").innerHTML = JSON.stringify(response.data.analysis[2])
                 document.getElementById("analzscores").innerHTML = JSON.stringify(response.data.analysis[3])
                 document.getElementById("analzavg").innerHTML = JSON.stringify(response.data.analysis[4])
-                
+                document.getElementById("jsonStr").innerHTML = JSON.stringify(jsonStr)
+                document.getElementById("resultStr").innerHTML = JSON.stringify(response.data.analysis)
+                document.getElementById("btn1").style.display = "";
+                document.getElementById("btn2").style.display = "";
               })
               .catch(function (error) {
                 console.log(error);
+                alert(error);
               })
             }
           })
@@ -125,6 +144,8 @@ export default function Test() {
 
       // Json upload
       const handleDropJ = acceptedFiles =>{
+        document.getElementById("btn1").style.display = "none";
+        document.getElementById("btn2").style.display = "none";
         setFileNamess(acceptedFiles.map(file => file.name))
         const reader = new FileReader();
         reader.onabort = () => console.log("file reading was aborted");
@@ -132,7 +153,7 @@ export default function Test() {
         reader.onload = () => {
           let jsonStr = JSON.parse(reader.result)
           console.log(jsonStr)
-          axios.post(get_config('service_url') + get_service_config(6, 'api_method') + JSON.stringify(jsonStr))
+          axios.get(get_config('test_url') + get_service_config(6, 'api_method') + JSON.stringify(jsonStr))
           .then(function (response) {
             console.log(response.data.analysis);
             console.log(response.data.input);
@@ -142,9 +163,14 @@ export default function Test() {
                 document.getElementById("analzitemdiff").innerHTML = JSON.stringify(response.data.analysis[2])
                 document.getElementById("analzscores").innerHTML = JSON.stringify(response.data.analysis[3])
                 document.getElementById("analzavg").innerHTML = JSON.stringify(response.data.analysis[4])
+                document.getElementById("jsonStr").innerHTML = JSON.stringify(jsonStr)
+                document.getElementById("resultStr").innerHTML = JSON.stringify(response.data.analysis)
+                document.getElementById("btn1").style.display = "";
+                document.getElementById("btn2").style.display = ""
           })
           .catch(function (error) {
             console.log(error);
+            alert(error);
           })
         }
         acceptedFiles.forEach(file => reader.readAsBinaryString(file))
@@ -156,7 +182,7 @@ export default function Test() {
 
         <div className="card text-center col-md-8">
             <div className="card-header bg-info text-white h2">
-                Calculate Test Reliabilty
+                {get_config('application_form')}
             </div>
             <div className="card-body">
               <h5 className="card-title">Analyze your Teacher-Made tests</h5>
@@ -168,7 +194,7 @@ export default function Test() {
                 {({ getRootProps, getInputProps }) => (
                 <div {...getRootProps({ className: "dropzone" })}>
                   <input {...getInputProps()} />
-                  <p>Drag'n'drop csv files, or click to select files</p>
+                  <p>Drag'n'drop a CSV files, or click to select files</p>
                   <div>
                 <ul className="ba">
                   {fileNames.map(fileName => (
@@ -185,7 +211,7 @@ export default function Test() {
                 {({ getRootProps, getInputProps }) => (
                 <div {...getRootProps({ className: "dropzone" })}>
                   <input {...getInputProps()} />
-                  <p>Drag'n'drop json file, or click to select file</p>
+                  <p>Drag'n'drop a JSON file, or click to select file</p>
                   <div>
                 <ul className="ba">
                   {fileNamess.map(fileNames => (
@@ -196,7 +222,7 @@ export default function Test() {
                 </div>
                 )}
               </Dropzone>
-             
+
 
               {/* <MaterialTable
                 options={{
@@ -270,8 +296,9 @@ export default function Test() {
             </div>  
             <div className="card-body">          
         <div className="text-center">
-            <button type="button" className="btn btn-danger btn-lg" color="primary" variant="contained" onClick={handleclick}
-            >
+            <button type="button" className="btn btn-danger btn-lg"
+                    style={{display: 'none'}}
+                    variant="contained" onClick={handleclick}>
             Compute 
             </button>
         </div>
@@ -282,6 +309,25 @@ export default function Test() {
         <h5 id="analzitemdiff"> </h5>
         <h5 id="analzscores"> </h5>
         <h5 id="analzavg"> </h5>
+
+         <span id="jsonStr" style={{display: 'none'}}></span>
+         <span id="resultStr" style={{display: 'none'}}></span>
+         <div className="row"> <div className="text-center col-md-6">
+                <a id="downloadJSON" href="" style={{display: 'none'}}></a>
+                <input type="button" id="btn1" style={{display: 'none'}}
+                       className="btn btn-warning btn-lg" value="Save Input JSON"
+                       title="Download"
+                       onClick= {handleExport} />
+                </div>
+                <div className="text-center col-md-6">
+                <a id="downloadResult" href="" style={{display: 'none'}}></a>
+                <input type="button" id="btn2" style={{display: 'none'}}
+                       className="btn btn-danger btn-lg" value="Save Result JSON"
+                       title="Download"
+                       onClick= {handleExportResult} />
+                </div>
+         </div>
+
         {/* <h5 id="jsoninput"> </h5> */}
 
         </div>

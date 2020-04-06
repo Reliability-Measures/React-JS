@@ -7,7 +7,8 @@ let config = {
     'cloud_host_credentials':'yyyy',
     'application_id': 'rm_01',
     'application_version': '0.0.1',
-    'application_name': 'Reliability Measures microservices',
+    'application_name': 'Reliability Measures',
+    'application_form': 'Calculate Test Reliability',
     'application_short_name': 'rm_microservices',
     'service_url': 'http://visonics.net/rm/',
     'test_url': 'http://127.0.0.1:5000/',
@@ -59,7 +60,7 @@ let config = {
             'type': 'list of items'
         },
     ]
-}
+};
 
 function get_service_config(service_id, key) {
     return config['services'][service_id][key]
@@ -88,8 +89,27 @@ function convertToArrayOfObjects(data) {
     return output;
 }
 
+function saveJSON(dataStr, element) {
+    let data = JSON.parse(document.getElementById(dataStr).innerHTML);
+    let fname = "result";
+    if (data.exam_info) {
+        fname = data.exam_info.name;
+    }
+    fname = prompt("Please Enter Filename",fname + ".json");
+    if (fname===null) return;
+    // console.log(document.getElementById(dataStr).innerHTML);
+
+    console.log(data);
+    let json = JSON.stringify(data, null, 4);
+    dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(json);
+
+    let dlAnchorElem = document.getElementById(element);
+    dlAnchorElem.setAttribute("href", dataStr);
+    dlAnchorElem.setAttribute("download", fname);
+    dlAnchorElem.click();
+}
+
 export {get_service_config}
 export {get_config}
 export {convertToArrayOfObjects}
-
-
+export {saveJSON}
