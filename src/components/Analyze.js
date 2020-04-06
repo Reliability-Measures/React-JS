@@ -95,7 +95,7 @@ export default function Analyze() {
                   jsonStr = JSON.parse(reader.result);
                 }
                 catch(err) {
-                  alert('JSON format error!');
+                  alert('The file is not in a valid CSV or JSON format!');
                 }
             } else {
                 console.log("Parsed CSV data: ", data)
@@ -215,7 +215,7 @@ export default function Analyze() {
                 {({ getRootProps, getInputProps }) => (
                 <div {...getRootProps({ className: "dropzone" })}>
                   <input {...getInputProps()} />
-                  <p>Drag'n'drop a CSV or JSON file, or click to select files</p>
+                  <p>Drag'n'drop a CSV or JSON file, or click to select a file</p>
                   <div>
                 <ul className="ba">
                   {fileNames.map(fileName => (
