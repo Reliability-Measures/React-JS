@@ -76,6 +76,7 @@ export default function Analyze() {
       const handleExportResult = e =>{
         saveJSON("resultStr", "downloadResult")
       };
+
       // Csv upload
       const handleDropC = acceptedFiles =>{
         document.getElementById("btn1").style.display = "none";
@@ -86,62 +87,75 @@ export default function Analyze() {
         reader.onerror = () => console.log("file reading failed");
         reader.onload = () => {
           csv.parse(reader.result, (err, data) => {
+            let jsonStr = null;
             if (err) {
-              alert("File not in CSV format")
+                //alert("File not in CSV format");
+                // try JSON format
+                try {
+                  jsonStr = JSON.parse(reader.result);
+                }
+                catch(err) {
+                  alert('JSON format error!');
+                }
             } else {
-              console.log("Parsed CSV data: ", data)
-              let obj = convertToArrayOfObjects(data)
-              console.log(obj)
-              for (let i=0;i<obj.length;i++) {
-                 let item = obj[i]
-                 let keys = Object.keys(item)
-                 let items = []
-                 keys.forEach(function get_key(key) {
-                  //console.log(key, parseInt(key))
-                  if (!(isNaN(parseInt(key)))) {
-                    items.push({item_id: parseInt(key), response: parseInt(item[key])})
-                    delete item[key]
-                  }
-                 })
-                 item["item_responses"] = items
-              }
-              console.log(obj)
-              console.log(acceptedFiles[0].name)
-              let jsonStr = {student_list: obj, exam_info: {name: acceptedFiles[0].name.split(".")[0]} }
-/*              setJsonData(prevStat => ({
-               ...prevStat,
-               data:json_obj
-              })
-             ,[jsonData.data])*/
-
-              console.log(jsonStr)
-              axios.get(get_config('test_url') + get_service_config(6, 'api_method') + JSON.stringify(jsonStr))
-              .then(function (response) {
-                console.log(response.data.analysis);
-                console.log(response.data.input);
-                document.getElementById("analzkr").innerHTML = JSON.stringify(response.data.analysis[0])
-                document.getElementById("analzpbcc").innerHTML = JSON.stringify(response.data.analysis[1])
-                document.getElementById("analzitemdiff").innerHTML = JSON.stringify(response.data.analysis[2])
-                document.getElementById("analzscores").innerHTML = JSON.stringify(response.data.analysis[3])
-                document.getElementById("analzavg").innerHTML = JSON.stringify(response.data.analysis[4])
-                document.getElementById("jsonStr").innerHTML = JSON.stringify(jsonStr)
-                document.getElementById("resultStr").innerHTML = JSON.stringify(response.data.analysis)
-                document.getElementById("btn1").style.display = "";
-                document.getElementById("btn2").style.display = "";
-              })
-              .catch(function (error) {
-                console.log(error);
-                alert(error);
-              })
+                console.log("Parsed CSV data: ", data)
+                let obj = convertToArrayOfObjects(data)
+                console.log(obj)
+                for (let i = 0; i < obj.length; i++) {
+                    let item = obj[i]
+                    let keys = Object.keys(item)
+                    let items = []
+                    keys.forEach(function get_key(key) {
+                        //console.log(key, parseInt(key))
+                        if (!(isNaN(parseInt(key)))) {
+                            items.push({
+                                item_id: parseInt(key),
+                                response: parseInt(item[key])
+                            })
+                            delete item[key]
+                        }
+                    })
+                    item["item_responses"] = items
+                }
+                console.log(obj)
+                console.log(acceptedFiles[0].name)
+                jsonStr = {
+                    student_list: obj,
+                    exam_info: {name: acceptedFiles[0].name.split(".")[0]}
+                }
+                /*              setJsonData(prevStat => ({
+                               ...prevStat,
+                               data:json_obj
+                              })
+                             ,[jsonData.data])*/
             }
-          })
-          
-        
+            if (jsonStr) {
+                  console.log(jsonStr)
+                  axios.post(get_config('test_url') + get_service_config(6, 'api_method') + JSON.stringify(jsonStr))
+                      .then(function (response) {
+                          console.log(response.data.analysis);
+                          console.log(response.data.input);
+                          document.getElementById("analzkr").innerHTML = JSON.stringify(response.data.analysis[0])
+                          document.getElementById("analzpbcc").innerHTML = JSON.stringify(response.data.analysis[1])
+                          document.getElementById("analzitemdiff").innerHTML = JSON.stringify(response.data.analysis[2])
+                          document.getElementById("analzscores").innerHTML = JSON.stringify(response.data.analysis[3])
+                          document.getElementById("analzavg").innerHTML = JSON.stringify(response.data.analysis[4])
+                          document.getElementById("jsonStr").innerHTML = JSON.stringify(jsonStr)
+                          document.getElementById("resultStr").innerHTML = JSON.stringify(response.data.analysis)
+                          document.getElementById("btn1").style.display = "";
+                          document.getElementById("btn2").style.display = "";
+                      })
+                      .catch(function (error) {
+                          console.log(error);
+                          alert(error);
+                      })
+              }
+        })
         }
         acceptedFiles.forEach(file => reader.readAsBinaryString(file))
       }
 
-
+/*
       // Json upload
       const handleDropJ = acceptedFiles =>{
         document.getElementById("btn1").style.display = "none";
@@ -151,9 +165,16 @@ export default function Analyze() {
         reader.onabort = () => console.log("file reading was aborted");
         reader.onerror = () => console.log("file reading failed");
         reader.onload = () => {
-          let jsonStr = JSON.parse(reader.result)
-          console.log(jsonStr)
-          axios.get(get_config('test_url') + get_service_config(6, 'api_method') + JSON.stringify(jsonStr))
+            let jsonStr = {}
+            try {
+              jsonStr = JSON.parse(reader.result);
+            }
+            catch(err) {
+              alert('JSON format error!')
+            }
+
+          console.log(jsonStr);
+          axios.post(get_config('test_url') + get_service_config(6, 'api_method') + JSON.stringify(jsonStr))
           .then(function (response) {
             console.log(response.data.analysis);
             console.log(response.data.input);
@@ -174,7 +195,7 @@ export default function Analyze() {
           })
         }
         acceptedFiles.forEach(file => reader.readAsBinaryString(file))
-      }
+      }*/
       
   return (
     <React.Fragment>
@@ -189,12 +210,12 @@ export default function Analyze() {
               <p className="card-text">Provide you with reliability indicators to help you determine your tests’ capabilities for assessing your students.</p>
               <p className="card-text">Please enter student responses below (comma separated, one student at a time) or upload CSV or JSON file.</p>
               <Dropzone className="card-text" onDrop={handleDropC}
-              accept=".csv,.txt"
+              accept=".csv,.txt,.json"
               >
                 {({ getRootProps, getInputProps }) => (
                 <div {...getRootProps({ className: "dropzone" })}>
                   <input {...getInputProps()} />
-                  <p>Drag'n'drop a CSV files, or click to select files</p>
+                  <p>Drag'n'drop a CSV or JSON file, or click to select files</p>
                   <div>
                 <ul className="ba">
                   {fileNames.map(fileName => (
@@ -205,7 +226,7 @@ export default function Analyze() {
                 </div>
                 )}
               </Dropzone>
-              <Dropzone className="card-text" onDrop={handleDropJ}
+{/*              <Dropzone className="card-text" onDrop={handleDropJ}
               accept=".json,.txt"
               >
                 {({ getRootProps, getInputProps }) => (
@@ -221,7 +242,7 @@ export default function Analyze() {
               </div>
                 </div>
                 )}
-              </Dropzone>
+              </Dropzone>*/}
 
 
               {/* <MaterialTable
