@@ -775,7 +775,7 @@
             ]
         }
     ],
-    "exam_info": {
-        "name": "KR20 Example"
+    "exam": {
+        "name": "20 items example"
     }
 }

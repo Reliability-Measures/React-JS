@@ -132,16 +132,11 @@ export default function Test() {
         reader.onload = () => {
           let jsonStr = JSON.parse(reader.result)
           console.log(jsonStr)
-          axios.post(get_config('service_url') + get_service_config(6, 'api_method') + JSON.stringify(jsonStr))
+          axios.post(get_config('test_url') + get_service_config(6, 'api_method') + JSON.stringify(jsonStr))
           .then(function (response) {
             console.log(response.data.analysis);
             console.log(response.data.input);
-                console.log(response.data.input);
-                document.getElementById("analzkr").innerHTML = JSON.stringify(response.data.analysis[0])
-                document.getElementById("analzpbcc").innerHTML = JSON.stringify(response.data.analysis[1])
-                document.getElementById("analzitemdiff").innerHTML = JSON.stringify(response.data.analysis[2])
-                document.getElementById("analzscores").innerHTML = JSON.stringify(response.data.analysis[3])
-                document.getElementById("analzavg").innerHTML = JSON.stringify(response.data.analysis[4])
+            document.getElementById("analz").innerHTML = JSON.stringify(response.data.analysis);
           })
           .catch(function (error) {
             console.log(error);
@@ -162,7 +157,7 @@ export default function Test() {
               <h5 className="card-title">Analyze your Teacher-Made tests</h5>
               <p className="card-text">Provide you with reliability indicators to help you determine your tests’ capabilities for assessing your students.</p>
               <p className="card-text">Please enter student responses below (comma separated, one student at a time) or upload CSV or JSON file.</p>
-              <Dropzone className="card-text" onDrop={handleDropC}
+              <Dropzone onDrop={handleDropC}
               accept=".csv,.txt"
               >
                 {({ getRootProps, getInputProps }) => (
@@ -179,7 +174,7 @@ export default function Test() {
                 </div>
                 )}
               </Dropzone>
-              <Dropzone className="card-text" onDrop={handleDropJ}
+              <Dropzone onDrop={handleDropJ}
               accept=".json,.txt"
               >
                 {({ getRootProps, getInputProps }) => (
@@ -277,6 +272,7 @@ export default function Test() {
         </div>
 
      <div className="text-center"> <br></br>
+        <h5 id="analz"> </h5>
         <h5 id="analzkr"> </h5>
         <h5 id="analzpbcc"> </h5>
         <h5 id="analzitemdiff"> </h5>

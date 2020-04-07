@@ -6,19 +6,18 @@ let config = {
     'cloud_host': 'xxx',
     'cloud_host_credentials':'yyyy',
     'application_id': 'rm_01',
-    'application_version': '0.0.1',
-    'application_name': 'Reliability Measures',
-    'application_form': 'Calculate Test Reliability',
+    'application_version': '0.0.2',
+    'application_name': 'Reliability Measures microservices',
     'application_short_name': 'rm_microservices',
-    'service_url': 'http://visonics.net/rm/',
+    'service_url': 'http://api.reliabilitymeasures.com/',
     'test_url': 'http://127.0.0.1:5000/',
     'services': [
         // use the shot_name key for service path and in response key.
         // Must follow Python/JS variable rules
-        {'id': 0},  // left empty on purpose
+        {'id': 0},  // left  empty on purpose
         {
             'id': 1,
-            'name': 'kr20',
+            'name': 'KR20',
             'short_name': 'kr20',
             'description': 'KR20 value',
             'type': 'float'
@@ -26,8 +25,8 @@ let config = {
         {
             'id': 2,
             'name': 'Item discrimination',
-            'short_name': 'pbcc',
-            'description': 'Item discrimination',
+            'short_name': 'idr',
+            'description': 'Item discrimination, Point biserial correlation coefficient',
             'type': 'list of floats'
         },
         {
@@ -39,14 +38,14 @@ let config = {
         },
         {
             'id': 4,
-            'name': 'scores',
+            'name': 'Scores',
             'short_name': 'scores',
             'description': 'Test scores',
             'type': 'list of floats'
         },
         {
             'id': 5,
-            'name': 'average',
+            'name': 'Average',
             'short_name': 'average',
             'description': 'Student Average',
             'type': 'list of floats'
@@ -59,8 +58,44 @@ let config = {
             'description': 'The whole test analysis with all results',
             'type': 'list of items'
         },
+        {
+            'id': 7,
+            'name': 'Weighted Scores',
+            'short_name': 'weighted_scores',
+            'description': 'Weighted test scores',
+            'type': 'list of floats'
+        },
+        {
+            'id': 8,
+            'name': 'Weighted Average',
+            'short_name': 'weighted_avg',
+            'description': 'Weighted Average of Weighted test scores',
+            'type': 'float'
+        },
+        {
+            'id': 9,
+            'name': 'exclude_items',
+            'short_name': 'exclude',
+            'description': 'Items to exclude based on IDr',
+            'type': 'list of ints'  // item id might not be only ints?
+        },
+        {
+            'id': 10,
+            'name': 'difficulty_average',
+            'short_name': 'diff_avg',
+            'description': 'The average difficulty',
+            'type': 'float'
+        },
+        {
+            'id': 11,
+            'name': 'discrimination_average',
+            'short_name': 'idr_avg',
+            'description': 'The average item discrimination',
+            'type': 'float'
+        }        
     ]
-};
+}
+
 
 function get_service_config(service_id, key) {
     return config['services'][service_id][key]

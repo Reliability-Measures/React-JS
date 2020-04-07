@@ -1,4 +1,5 @@
 import React , {useState} from "react"
+import ReactDOM from 'react-dom'
 import axios from 'axios'
 import './components.css'
 import csv from "csv";
@@ -8,23 +9,7 @@ import {get_service_config, get_config, convertToArrayOfObjects, saveJSON} from 
 
 export default function Analyze() {
   const [fileNames, setFileNames] = useState([]);
-  const [fileNamess, setFileNamess] = useState([]);
-  // const [jsonData, setJsonData] = useState({data: []});
-    // const [state, setState] = useState({
-    //     columns: [
-    //       { title: "Graduation Year", field: 'gradYear'},
-    //       { title: "Id", field: 'id'},
-    //       { title: "First Name", field: 'firstName'},
-    //       { title: "Last Name", field: 'lastName'},
-    //       { title: "Email", field: 'email'},
-    //       { title: "Item responses", field: 'itemresponses'}
-    //     ],
-    //     data: [
-            
-    //     ]
-            
-        
-    //   })
+  
     //   const handlesample = useCallback( e =>{
     //     e.preventDefault();
     //     let data1 = [
@@ -48,27 +33,6 @@ export default function Analyze() {
     //     //eslint-disable-next-line
     // },[state.data])
 
-    const handleclick = e =>{
-        //let url = 'http://visonics.net/rm/';
-        //let url1 = 'http://127.0.0.1:5000/';
-
-        // let fjson = []
-        // console.log(state.data)
-        
-        
-        // fjson = {studentslist: state.data.StudentsList.itemresponses}
-        // console.log(fjson)
-
-        // axios.post('http://127.0.0.1:5000/analyzeTest/' + JSON.stringify())
-        //   .then(function (response) {
-        //     console.log(response.analysis);
-        //     document.getElementById("analz").innerHTML = JSON.stringify(response.analysis);
-            
-        //   })
-        //   .catch(function (error) {
-        //     console.log(error);
-        //   })
-      }
 
       const handleExport = e =>{
         saveJSON("jsonStr", "downloadJSON")
@@ -121,29 +85,166 @@ export default function Analyze() {
                 console.log(acceptedFiles[0].name)
                 jsonStr = {
                     student_list: obj,
-                    exam_info: {name: acceptedFiles[0].name.split(".")[0]}
+                    exam: {name: acceptedFiles[0].name.split(".")[0]}
                 }
-                /*              setJsonData(prevStat => ({
-                               ...prevStat,
-                               data:json_obj
-                              })
-                             ,[jsonData.data])*/
+               
             }
             if (jsonStr) {
                   console.log(jsonStr)
+                  document.getElementById("input").style.display = "";
                   axios.post(get_config('test_url') + get_service_config(6, 'api_method') + JSON.stringify(jsonStr))
                       .then(function (response) {
                           console.log(response.data.analysis);
-                          console.log(response.data.input);
-                          document.getElementById("analzkr").innerHTML = JSON.stringify(response.data.analysis[0])
-                          document.getElementById("analzpbcc").innerHTML = JSON.stringify(response.data.analysis[1])
-                          document.getElementById("analzitemdiff").innerHTML = JSON.stringify(response.data.analysis[2])
-                          document.getElementById("analzscores").innerHTML = JSON.stringify(response.data.analysis[3])
-                          document.getElementById("analzavg").innerHTML = JSON.stringify(response.data.analysis[4])
+                          console.log(response.data.Input);
                           document.getElementById("jsonStr").innerHTML = JSON.stringify(jsonStr)
                           document.getElementById("resultStr").innerHTML = JSON.stringify(response.data.analysis)
                           document.getElementById("btn1").style.display = "";
                           document.getElementById("btn2").style.display = "";
+
+                          //let responses = []
+                          for (let i=0;i<jsonStr.student_list.length;i++) {
+                            let items = jsonStr.student_list[i].item_responses
+                            let item_values = []
+                            items.map(value  => (
+                              item_values.push(value.response)
+                            ))
+                            //responses.push(item_values)
+                            delete jsonStr.student_list[i].item_responses
+                            jsonStr.student_list[i].responses = JSON.stringify(item_values)
+                          }
+                          console.log(jsonStr.student_list)
+
+                          let results = response.data.analysis
+                          console.log(results)
+                          let rm_keys = [get_service_config(1, 'short_name'), get_service_config(5, 'short_name'), get_service_config(8, 'short_name')]
+                          let rm_heads = [get_service_config(1, 'name'), get_service_config(5, 'name'), get_service_config(8, 'name')]
+                          console.log(rm_keys)
+                          let rm_results = [results[rm_keys[0]], results[rm_keys[1]], results[rm_keys[2]]]
+                          console.log(rm_results)
+
+                          let item_keys = [get_service_config(2, 'short_name'), get_service_config(3, 'short_name')]
+                          let item_heads = ['item id', get_service_config(2, 'name'), get_service_config(3, 'name')] 
+                          let idrs = Object.values(results[item_keys[0]])
+                          let diff = Object.values(results[item_keys[1]])
+                          let item_id = Object.keys(results[item_keys[0]])
+
+                          let item_results = []
+                          for (let i=0;i<item_id.length;i++) {
+                              item_results.push([item_id[i], idrs[i], diff[i]])
+                          }
+
+
+                          let stud_keys = [get_service_config(4, 'short_name'), get_service_config(7, 'short_name')]
+                          let stud_heads = ['Student Id', get_service_config(4, 'name'), get_service_config(7, 'name')]
+                          let stud_scores = Object.values(results[stud_keys[0]])
+                          let stud_wscores = Object.values(results[stud_keys[1]])
+                          let stud_id = Object.values(jsonStr.student_list)
+                          //let student_id = Object.keys(results[stud_keys[0]])
+                          let stud_results = []
+                          for (let i=0;i<stud_scores.length;i++) {
+                              stud_results.push([stud_id[i].id, stud_scores[i], stud_wscores[i]])
+                          }
+
+                          const inputtable = (
+                                      <div><br></br>
+                                      <div className="text-center h3">{jsonStr.exam.name}</div>
+                                      <table className="table table-sm">
+                                        
+                                      <thead>
+                                        <tr>
+                                        {[jsonStr.student_list[0]].map(value  => (                              
+                                          Object.keys(value).map(val => (<th key={val}>{val}</th>))                              
+                                        ))
+                                      }
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {jsonStr.student_list.map((value, index) => {                              
+                                        return <tr key={index}>{console.log(Object.values(value))}{Object.values(value).map(val => (<td key={val}>{val}</td>))}
+                                          {/* responses */}
+                                        {/* { responses.map((val, index)  => {                              
+                                          return <th key={index}>{val}</th>                             
+                                        })} */}
+                                        </tr>
+                                        })}
+                                      </tbody>
+                                    </table>
+                                    </div>
+                          )
+
+
+                        const resulttable = (
+                              <div>
+                              <div className="text-center h3">{jsonStr.exam.name}</div>
+                              <table className="table table-sm" id='output'><tbody><tr><td>
+                              <table className="table table-sm">
+                                <thead>
+                                <tr>
+                                {rm_heads.map(val  => (                              
+                                  <th key={val}>{val}</th>
+                                ))
+                              }
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                {rm_results.map((value, index) => {                               
+                                  return <td key={index}>{value}</td>
+                                })
+                                }
+                                </tr>
+                                  
+                                </tbody>
+                              </table>
+                              <div className="text-center h5">Item Scores</div>
+                              <table className="table table-sm">
+                                <thead>
+                                <tr>
+                                {item_heads.map(val  => (                              
+                                  <th key={val}>{val}</th>
+                                ))
+                              }
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {item_results.map((value, index) => {                              
+                                        return <tr key={index}>{console.log(Object.values(value))}{Object.values(value).map(val => (<td key={val}>{val}</td>))} 
+                                       
+                                </tr>
+                                  })}
+                                  <tr><th>Total items</th><th colSpan='2'>Averages</th></tr>
+                                <tr><th>{item_id.length}</th><th>{results[get_service_config(11, 'short_name')]}</th><th>{results[get_service_config(10, 'short_name')]}</th></tr>  
+                                </tbody>
+                              </table>
+
+                              <div className="text-center h5">Student scores</div>
+                              <table className="table table-sm">
+                                <thead>
+                                <tr>
+                                {stud_heads.map(val  => (                              
+                                  <th key={val}>{val}</th>
+                                ))
+                              }
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {stud_results.map((value, index) => {                              
+                                        return <tr key={index}>{console.log(Object.values(value))}{Object.values(value).map(val => (<td key={val}>{val}</td>))} 
+                                       
+                                </tr>
+                                  })}
+                                  <tr><th>Total students</th><th colSpan='2'>Averages</th></tr>
+                                  <tr><th>{stud_scores.length}</th><th>{results[get_service_config(5, 'short_name')]}</th><th>{results[get_service_config(8, 'short_name')]}</th></tr>
+                                </tbody>
+                              </table>
+
+                              </td></tr></tbody>
+                              </table>
+
+                              </div>
+                        )
+                          ReactDOM.render(inputtable, document.getElementById('input'))
+                          ReactDOM.render(resulttable, document.getElementById('results'))
                       })
                       .catch(function (error) {
                           console.log(error);
@@ -154,49 +255,8 @@ export default function Analyze() {
         }
         acceptedFiles.forEach(file => reader.readAsBinaryString(file))
       }
-
-/*
-      // Json upload
-      const handleDropJ = acceptedFiles =>{
-        document.getElementById("btn1").style.display = "none";
-        document.getElementById("btn2").style.display = "none";
-        setFileNamess(acceptedFiles.map(file => file.name))
-        const reader = new FileReader();
-        reader.onabort = () => console.log("file reading was aborted");
-        reader.onerror = () => console.log("file reading failed");
-        reader.onload = () => {
-            let jsonStr = {}
-            try {
-              jsonStr = JSON.parse(reader.result);
-            }
-            catch(err) {
-              alert('JSON format error!')
-            }
-
-          console.log(jsonStr);
-          axios.post(get_config('test_url') + get_service_config(6, 'api_method') + JSON.stringify(jsonStr))
-          .then(function (response) {
-            console.log(response.data.analysis);
-            console.log(response.data.input);
-                console.log(response.data.input);
-                document.getElementById("analzkr").innerHTML = JSON.stringify(response.data.analysis[0])
-                document.getElementById("analzpbcc").innerHTML = JSON.stringify(response.data.analysis[1])
-                document.getElementById("analzitemdiff").innerHTML = JSON.stringify(response.data.analysis[2])
-                document.getElementById("analzscores").innerHTML = JSON.stringify(response.data.analysis[3])
-                document.getElementById("analzavg").innerHTML = JSON.stringify(response.data.analysis[4])
-                document.getElementById("jsonStr").innerHTML = JSON.stringify(jsonStr)
-                document.getElementById("resultStr").innerHTML = JSON.stringify(response.data.analysis)
-                document.getElementById("btn1").style.display = "";
-                document.getElementById("btn2").style.display = ""
-          })
-          .catch(function (error) {
-            console.log(error);
-            alert(error);
-          })
-        }
-        acceptedFiles.forEach(file => reader.readAsBinaryString(file))
-      }*/
-      
+      //let jsonStr = JSON.parse(document.getElementById('jsonStr').innerHTML)
+      //console.log(jsonStr.student_list)
   return (
     <React.Fragment>
      <div className="row">
@@ -225,90 +285,19 @@ export default function Analyze() {
               </div>
                 </div>
                 )}
-              </Dropzone>
-{/*              <Dropzone className="card-text" onDrop={handleDropJ}
-              accept=".json,.txt"
-              >
-                {({ getRootProps, getInputProps }) => (
-                <div {...getRootProps({ className: "dropzone" })}>
-                  <input {...getInputProps()} />
-                  <p>Drag'n'drop a JSON file, or click to select file</p>
-                  <div>
-                <ul className="ba">
-                  {fileNamess.map(fileNames => (
-                    <li key={fileNames}>{fileNames}</li>
-                  ))}
-                </ul>
+              </Dropzone>  
+              <div id="input">
+               
               </div>
-                </div>
-                )}
-              </Dropzone>*/}
+               <div className="text-center col-md-12">
+                <a id="downloadJSON" href=" " style={{display: 'none'}}> </a>
+                <input type="button" id="btn1" style={{display: 'none'}}
+                       className="btn btn-warning btn-lg" value="Save Input JSON"
+                       title="Download"
+                       onClick= {handleExport} />
+                </div> 
+                           
 
-
-              {/* <MaterialTable
-                options={{
-                  selection: true
-                }}
-                actions={[
-                {
-                  tooltip: 'Remove All Selected Users',
-                  icon: 'delete',
-                  onClick: (evt, deldata) => {
-                      let ans = window.confirm('You want to delete ' + deldata.length + ' rows');
-                      if (ans === true) {
-                        setState(prevState => {
-                            const data =[...prevState.data];
-                            deldata.forEach(function fn(item) {
-                            data.splice(data.indexOf(item), 1);
-                            })
-                            return { ...prevState, data };
-                        }
-                  )}}
-                }
-                 ]}
-                  title="Item responses:"
-                  columns={state.columns}
-                  data={state.data}
-                  editable={{
-                    onRowAdd: newData =>
-                      new Promise(resolve => {
-                        setTimeout(() => {
-                          resolve();
-                          setState(prevState => {
-                            const data = [...prevState.data];
-                            data.push(newData);
-                            return { ...prevState, data};
-                          });
-                        }, 600);
-                      }),
-                    onRowUpdate: (newData, oldData) =>
-                      new Promise(resolve => {
-                        setTimeout(() => {
-                          resolve();
-                          if (oldData) {
-                            setState(prevState => {
-                              const data = [...prevState.data];
-                              data[data.indexOf(oldData)] = newData;
-                              return { ...prevState, data };
-                            });
-                          }
-                        }, 600);
-                      }),
-                    onRowDelete: oldData =>
-                      new Promise(resolve => {
-                        setTimeout(() => {
-                          resolve();
-                          setState(prevState => {
-                            const data =[...prevState.data];
-                            data.splice(data.indexOf(oldData), 1);
-                            return { ...prevState, data };
-                          });
-                        }, 600);
-                      }),
-                      
-                      
-                  }}
-                /> */}
     </div>
     </div>
     <div className="card col-md-4">
@@ -319,7 +308,7 @@ export default function Analyze() {
         <div className="text-center">
             <button type="button" className="btn btn-danger btn-lg"
                     style={{display: 'none'}}
-                    variant="contained" onClick={handleclick}>
+                    variant="contained">
             Compute 
             </button>
         </div>
@@ -330,18 +319,15 @@ export default function Analyze() {
         <h5 id="analzitemdiff"> </h5>
         <h5 id="analzscores"> </h5>
         <h5 id="analzavg"> </h5>
+        <div id="results">
+               
+              </div>  
 
          <span id="jsonStr" style={{display: 'none'}}></span>
          <span id="resultStr" style={{display: 'none'}}></span>
-         <div className="row"> <div className="text-center col-md-6">
-                <a id="downloadJSON" href="" style={{display: 'none'}}></a>
-                <input type="button" id="btn1" style={{display: 'none'}}
-                       className="btn btn-warning btn-lg" value="Save Input JSON"
-                       title="Download"
-                       onClick= {handleExport} />
-                </div>
-                <div className="text-center col-md-6">
-                <a id="downloadResult" href="" style={{display: 'none'}}></a>
+         <div className="row">
+                <div className="text-center col-md-12">
+                <a id="downloadResult" href=" " style={{display: 'none'}}> </a>
                 <input type="button" id="btn2" style={{display: 'none'}}
                        className="btn btn-danger btn-lg" value="Save Result JSON"
                        title="Download"
