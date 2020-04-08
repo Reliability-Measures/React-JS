@@ -5,7 +5,8 @@ import './components.css'
 import csv from "csv";
 import Dropzone from 'react-dropzone'
 //import MaterialTable from "material-table"
-import {get_service_config, get_config, convertToArrayOfObjects, saveJSON} from './config'
+import {get_service_config, get_config, fnExcelReport,
+    convertToArrayOfObjects, saveJSON} from './config'
 
 export default function Analyze() {
   const [fileNames, setFileNames] = useState([]);
@@ -33,18 +34,23 @@ export default function Analyze() {
     //     //eslint-disable-next-line
     // },[state.data])
 
+      const handleClick =  e => {
 
+      };
       const handleExport = e =>{
         saveJSON("jsonStr", "downloadJSON")
       };
       const handleExportResult = e =>{
         saveJSON("resultStr", "downloadResult")
       };
-
+      const handleExportCSV = e =>{
+        fnExcelReport("output", "result")
+      };
       // Csv upload
       const handleDropC = acceptedFiles =>{
         document.getElementById("btn1").style.display = "none";
         document.getElementById("btn2").style.display = "none";
+        document.getElementById("btn3").style.display = "none";
         setFileNames(acceptedFiles.map(file => file.name))
         const reader = new FileReader();
         reader.onabort = () => console.log("file reading was aborted");
@@ -100,6 +106,7 @@ export default function Analyze() {
                           document.getElementById("resultStr").innerHTML = JSON.stringify(response.data.analysis)
                           document.getElementById("btn1").style.display = "";
                           document.getElementById("btn2").style.display = "";
+                          document.getElementById("btn3").style.display = "";
 
                           //let responses = []
                           for (let i=0;i<jsonStr.student_list.length;i++) {
@@ -160,11 +167,8 @@ export default function Analyze() {
                                       </thead>
                                       <tbody>
                                         {jsonStr.student_list.map((value, index) => {                              
-                                        return <tr key={index}>{console.log(Object.values(value))}{Object.values(value).map(val => (<td key={val}>{val}</td>))}
-                                          {/* responses */}
-                                        {/* { responses.map((val, index)  => {                              
-                                          return <th key={index}>{val}</th>                             
-                                        })} */}
+                                        return <tr key={index}>{console.log(Object.values(value))}
+                                              {Object.values(value).map(val => (<td key={val}>{val}</td>))}
                                         </tr>
                                         })}
                                       </tbody>
@@ -175,8 +179,8 @@ export default function Analyze() {
 
                         const resulttable = (
                               <div>
-                              <div className="text-center h3">{jsonStr.exam.name}</div>
-                              <table className="table table-sm" id='output'><tbody><tr><td>
+                              <table className="table table-sm" id='output'><tbody>
+                              <tr><th className="text-center h3">  {jsonStr.exam.name} </th></tr> <tr><td>
                               <table className="table table-sm">
                                 <thead>
                                 <tr>
@@ -195,8 +199,8 @@ export default function Analyze() {
                                 </tr>
                                   
                                 </tbody>
-                              </table>
-                              <div className="text-center h5">Item Scores</div>
+                              </table></td></tr>
+                              <tr><th className="text-center h3"> Item Scores </th></tr> <tr><td>
                               <table className="table table-sm">
                                 <thead>
                                 <tr>
@@ -215,9 +219,8 @@ export default function Analyze() {
                                   <tr><th>Total items</th><th colSpan='2'>Averages</th></tr>
                                 <tr><th>{item_id.length}</th><th>{results[get_service_config(11, 'short_name')]}</th><th>{results[get_service_config(10, 'short_name')]}</th></tr>  
                                 </tbody>
-                              </table>
-
-                              <div className="text-center h5">Student scores</div>
+                              </table></td></tr>
+                              <tr><th className="text-center h3"> Student Scores </th></tr> <tr><td>
                               <table className="table table-sm">
                                 <thead>
                                 <tr>
@@ -268,7 +271,9 @@ export default function Analyze() {
             <div className="card-body">
               <h5 className="card-title">Analyze your Teacher-Made tests</h5>
               <p className="card-text">Provide you with reliability indicators to help you determine your tests’ capabilities for assessing your students.</p>
-              <p className="card-text">Please enter student responses below (comma separated, one student at a time) or upload CSV or JSON file.</p>
+                <p className="card-text">Please upload exam scores in CSV or JSON format.<br></br>
+                  You can download Sample files here: <a target="_blank" href="data/20 Students.csv">CSV</a> <a target="_blank" href="data/20 Students.json">JSON</a>
+              </p>
               <Dropzone className="card-text" onDrop={handleDropC}
               accept=".csv,.txt,.json"
               >
@@ -314,24 +319,24 @@ export default function Analyze() {
         </div>
 
      <div className="text-center"> <br></br>
-        <h5 id="analzkr"> </h5>
-        <h5 id="analzpbcc"> </h5>
-        <h5 id="analzitemdiff"> </h5>
-        <h5 id="analzscores"> </h5>
-        <h5 id="analzavg"> </h5>
-        <div id="results">
-               
-              </div>  
+
+        <div id="results"> </div>
 
          <span id="jsonStr" style={{display: 'none'}}></span>
          <span id="resultStr" style={{display: 'none'}}></span>
          <div className="row">
-                <div className="text-center col-md-12">
+                <div className="text-center col-md-6">
                 <a id="downloadResult" href=" " style={{display: 'none'}}> </a>
                 <input type="button" id="btn2" style={{display: 'none'}}
                        className="btn btn-danger btn-lg" value="Save Result JSON"
                        title="Download"
                        onClick= {handleExportResult} />
+                </div>
+                <div className="text-center col-md-6">
+                <input type="button" id="btn3" style={{display: 'none'}}
+                       className="btn btn-danger btn-lg" value="Save Excel"
+                       title="Download Excel"
+                       onClick= {handleExportCSV} />
                 </div>
          </div>
 
