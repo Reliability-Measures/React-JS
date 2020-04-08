@@ -83,7 +83,7 @@ function Testdata() {
           {JSON.stringify(itemresponses, null, 4)}
         </div>
         <br></br>
-        <button className="btn btn-danger btn-lg" onClick={handleclick}>Compute !</button>
+        <button className="btn btn-danger" onClick={handleclick}>Compute !</button>
         <br></br>
         <div class="card-footer">
         <h3 id="kr20"> </h3>

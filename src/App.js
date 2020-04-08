@@ -6,35 +6,36 @@ import EnterlistSTD from './components/enterlistSTD'
 import EnterlistPropo from './components/enterlistPropo'
 import EnterlistSum from './components/enterlistSum'
 import Kr20 from './components/kr20'
-import Home from './components/Home'
+//import Home from './components/Home'
 import Error from './components/Error'
-import Navigation from './components/Navigation'
+//import Navigation from './components/Navigation'
 import Pbcc from './components/pbcc'
 import Testdata from './components/Testdata'
-
-
+import Analyze from './components/Analyze'
+import {get_config} from './components/config'
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <header className="App-header">
-          Reliability Measures Microservices
+            {get_config('application_name')}
         </header>
-        <div><Navigation /></div>
-        <body className="body">
+        {/* <div><Navigation /></div> */}
+        
           <Switch>
-            <Route path="/" component={Home} exact />
+            <Route path="/" component={Analyze} exact />
             <Route path="/std" component={EnterlistSTD} />
             <Route path="/sum" component={EnterlistSum} />
             <Route path="/prop" component={EnterlistPropo} />
             <Route path="/kr20" component={Kr20} />
             <Route path="/pbcc" component={Pbcc} />
             <Route path="/testdata" component={Testdata} />
+            <Route path="/analyze" component={Analyze} />
             <Route component={Error} />
           </Switch>
-        </body>
-        <footer className="footer">
+       
+        {/* <footer className="footer">
           &copy;  Reliability Measures - All Rights Reserved.
           <br></br>
           <a
@@ -45,7 +46,7 @@ function App() {
           >
             Github for this project
           </a>
-        </footer>
+        </footer> */}
       </div>
     </BrowserRouter>
   )

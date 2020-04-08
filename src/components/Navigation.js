@@ -6,6 +6,7 @@ const Navigation = () => {
   return (
     <div>
       <nav className="navbar navbar-light navcol">
+        
         <NavLink className="navbar-brand nac" to="/">Reliability Measures</NavLink>
         <button className="navbar-toggler mr-auto" data-toggle="collapse" data-target="#navbarMenu">
           <span className="navbar-toggler-icon"></span>
@@ -19,6 +20,7 @@ const Navigation = () => {
               <NavLink className="nav-link nac" to="/kr20">Kr20</NavLink>
               <NavLink className="nav-link nac" to="/pbcc">Pbcc</NavLink>
               <NavLink className="nav-link nac" to="/testdata">Testdata</NavLink>
+              <NavLink className="nav-link nac" to="/test">Test</NavLink>
             </li>
           </ul>
         </div>
