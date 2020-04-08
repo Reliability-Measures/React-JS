@@ -100,7 +100,7 @@ export default function Analyze() {
                   document.getElementById("input").style.display = "";
                   const options = {
                     method: 'POST',
-                    url: get_config('test_url') + get_service_config(6, 'api_method'),
+                    url: get_config('service_url') + get_service_config(6, 'api_method'),
                     params: {pretty:1, input: JSON.stringify(jsonStr)}
                   }
                   axios(options)
