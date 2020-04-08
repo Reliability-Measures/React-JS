@@ -153,16 +153,16 @@ export default function Analyze() {
          <span id="jsonStr" style={{display: 'none'}}></span>
          <span id="resultStr" style={{display: 'none'}}></span>
          <div className="row">
-                <div className="text-center col-md-6">
+                <div className="text-center col-sm-6">
                 <a id="downloadResult" href=" " style={{display: 'none'}}> </a>
                 <input type="button" id="btn2" style={{display: 'none'}}
-                       className="btn btn-danger btn-lg" value="Save Result JSON"
+                       className="btn btn-danger btn-md" value="Save Result JSON"
                        title="Download"
                        onClick= {handleExportResult} />
                 </div>
-                <div className="text-center col-md-6">
+                <div className="text-center col-sm-6">
                 <input type="button" id="btn3" style={{display: 'none'}}
-                       className="btn btn-danger btn-lg" value="Save Excel"
+                       className="btn btn-danger btn-md" value="Save Excel"
                        title="Download Excel"
                        onClick= {handleExportCSV} />
                 </div>
