@@ -33,7 +33,7 @@ export default function Analyze() {
     //     //handleclick()
     //     //eslint-disable-next-line
     // },[state.data])
-
+    // eslint-disable-next-line
       const handleClick =  e => {
 
       };
@@ -98,10 +98,13 @@ export default function Analyze() {
             if (jsonStr) {
                   console.log(jsonStr)
                   document.getElementById("input").style.display = "";
-                  axios.post(get_config('test_url') + get_service_config(6, 'api_method') + JSON.stringify(jsonStr))
+                  const options = {
+                    method: 'POST',
+                    url: get_config('test_url') + get_service_config(6, 'api_method'),
+                    params: {pretty:1, input: JSON.stringify(jsonStr)}
+                  }
+                  axios(options)
                       .then(function (response) {
-                          console.log(response.data.analysis);
-                          console.log(response.data.Input);
                           document.getElementById("jsonStr").innerHTML = JSON.stringify(jsonStr)
                           document.getElementById("resultStr").innerHTML = JSON.stringify(response.data.analysis)
                           document.getElementById("btn1").style.display = "";

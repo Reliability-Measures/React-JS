@@ -151,10 +151,11 @@ function getFilename(dname) {
 
 function fnExcelReport(table_id, file_name)
 {
-    let fname = getFilename(file_name + ".xlsx");
+    let fname = getFilename(file_name + ".xls");
     if (fname==null) return;
 
     let tab_text="<table border='2px'><tr>";
+    // eslint-disable-next-line
     let textRange; let j=0;
     let tab = document.getElementById(table_id); // id of table
 
@@ -172,6 +173,7 @@ function fnExcelReport(table_id, file_name)
     let ua = window.navigator.userAgent;
     let msie = ua.indexOf("MSIE ");
     let sa = null;
+    // eslint-disable-next-line
     if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
     {
 /*        txtArea1.document.open("txt/html","replace");
@@ -183,6 +185,7 @@ function fnExcelReport(table_id, file_name)
     else {                 //other browser not tested on IE 11
         let a = document.createElement('a');
         //getting data from our div that contains the HTML table
+        // eslint-disable-next-line
         let data_type = 'data:application/vnd.ms-excel';
         let url = URL.createObjectURL( new Blob( [tab_text], {type:'data:application/vnd.ms-excel'} ) );
         //a.href = data_type + ', ' + encodeURIComponent(tab_text);
@@ -198,7 +201,7 @@ function fnExcelReport(table_id, file_name)
 
     return (sa);
 }
-
+// eslint-disable-next-line
 function fnSavePDF(file_name, data)
 {
     var fname = file_name;
