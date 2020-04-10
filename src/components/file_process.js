@@ -175,7 +175,7 @@ function process(jsonStr) {
                     })}
 
                     <tr><th></th><th>Total items</th><th colSpan='2'>Averages</th></tr>
-                <tr><th>{<button type="button" className="btn btn-info" onClick={handle_item_change}>Save changes</button>}</th><th>{item_id.length}</th><th>{results[get_service_config(11, 'short_name')]}</th><th>{results[get_service_config(10, 'short_name')]}</th></tr>  
+                <tr><th>{<button type="button" className="btn btn-info" onClick={handle_item_change}><h5>Recalculate</h5></button>}<br></br><small className="text-danger">Items seleceted will be removed</small></th><th>{item_id.length}</th><th>{results[get_service_config(11, 'short_name')]}</th><th>{results[get_service_config(10, 'short_name')]}</th></tr>  
                   </tbody>
                 </table></td></tr>
                 <tr><th className="text-center h3"> Student Scores </th></tr> <tr><td>
@@ -195,7 +195,7 @@ function process(jsonStr) {
                   </tr>
                     })}
                     <tr><th></th><th>Total students</th><th colSpan='2'>Averages</th></tr>
-                    <tr><th>{<button type="button" className="btn btn-info"onClick={handle_student_change}>Save changes</button>}</th><th>{stud_scores.length}</th><th>{results[get_service_config(5, 'short_name')]}</th><th>{results[get_service_config(8, 'short_name')]}</th></tr>
+                    <tr><th>{<button type="button" className="btn btn-info"onClick={handle_student_change}><h5>Recalculate</h5></button>}<br></br><small className="text-danger">Students seleceted will be removed</small></th><th>{stud_scores.length}</th><th>{results[get_service_config(5, 'short_name')]}</th><th>{results[get_service_config(8, 'short_name')]}</th></tr>
                   </tbody>
                 </table>
 
