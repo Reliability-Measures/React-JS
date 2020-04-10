@@ -5,7 +5,6 @@ import {get_service_config, get_config} from './config'
 
 
 
-
 function process(jsonStr) {
   const handle_item_click = e =>{
     //console.log(e.target.value)
@@ -15,11 +14,44 @@ function process(jsonStr) {
     else {document.getElementById("is-"+e.target.value).className = ""}
   }
 
-  const handle_edit = e =>{
-    
+  const handle_edit = (a) =>{
+    //alert(a)
+    console.log(a)
+    document.getElementById("btn1").style.display = "none";
+    let edit = document.getElementById("ed-"+a)
+    let save = document.getElementById("sv-"+a)
+    let field = document.getElementById("inp-"+a)
+    let val = document.getElementById("val-"+a)
+    edit.style.display = "none"
+    save.style.display = ""
+    val.style.display = "none"
+    field.style.display = ""
   }
+  const handle_save = (a) => {
+      let edit = document.getElementById("ed-" + a)
+      let save = document.getElementById("sv-" + a)
+      let field = document.getElementById("inp-" + a)
+      let val = document.getElementById("val-" + a)
+      let chg = document.getElementById("chg-" + a)
 
-  const handle_save_chnages = e =>{
+      edit.style.display = ""
+      save.style.display = "none"
+      val.style.display = ""
+      field.style.display = "none"
+      // update jsonStr
+      console.log(chg.value, chg.defaultValue)
+      if (chg.value.length !== chg.defaultValue.length) {
+            alert("Invalid")
+            chg.value = chg.defaultValue
+        } else {
+            if (chg.defaultValue !== chg.value)
+                val.className = "bg-light"
+
+            chg.defaultValue=chg.value
+            val.innerText = chg.value
+      }
+  }
+  const handle_save_changes = e =>{
     
   }
   const handle_item_change = e =>{
@@ -71,7 +103,7 @@ function process(jsonStr) {
               ))
               //responses.push(item_values)
               delete jsonStr2.student_list[i].item_responses
-              jsonStr2.student_list[i].responses = JSON.stringify(item_values)
+              jsonStr2.student_list[i].responses = item_values.toString()
             }
             //console.log(jsonStr.student_list)
 
@@ -110,7 +142,7 @@ function process(jsonStr) {
                         <div><br></br>
                         <div className="text-center h3">{jsonStr.exam.name}</div>
                         <table className="table table-sm">
-                        <caption>{<button type="button" className="btn btn-info" onClick={handle_save_chnages}>Save changes</button>}</caption>
+                        <caption>{<button type="button" className="btn btn-info" onClick={handle_save_changes}>Save changes</button>}</caption>
                         <thead>
                           <tr>
                           {[jsonStr2.student_list[0]].map(value  => (                              
@@ -122,9 +154,22 @@ function process(jsonStr) {
                         </thead>
                         <tbody>
                           {jsonStr2.student_list.map((value, index) => {                              
-                          return <tr key={index}> 
-                                {Object.values(value).map(val => (<td key={val}>{val}</td>))}
-                          <th>{<button type="button" className="btn btn-info" onClick={handle_edit}>Edit</button>}</th>
+                          return <tr key={index}>
+                              {Object.values(value).map((val, ind, arr) => {
+                                      return ind === arr.length - 1 ?
+                                          <td key={val}><span
+                                              id={"val-" + (index + 1)}>{val}</span>
+                                              <span id={"inp-" + (index + 1)}
+                                                    style={{display: 'none'}}><input size="50" id={"chg-" + (index + 1)} type="text" defaultValue={val}></input></span>
+                                          </td> : <td key={val}>{val}</td>
+                                  }
+                              )
+                              }
+
+                          <th>
+                              {<button type="button" id={"ed-" + (index+1)} className="btn btn-info" onClick={() => handle_edit(index+1)}>Edit</button>}
+                              {<button style={{display: 'none'}} type="button" id={"sv-" + (index+1)} className="btn btn-warning" onClick={() => handle_save(index+1)}>Save</button>}
+                          </th>
                           </tr>
                           })}
                         </tbody>
@@ -132,11 +177,9 @@ function process(jsonStr) {
                       </div>
             )
 
-
           const resulttable = (
                 <div>
-                <table className="table table-sm" id='output'><tbody>
-                <tr><th className="text-center h3">  {jsonStr.exam.name} </th></tr> <tr><td>
+                <table className="table table-sm" id='output'><tbody><tr><th className="text-center h3">{jsonStr.exam.name}</th></tr><tr><td>
                 <table className="table table-sm">
                   <thead>
                   <tr>
@@ -153,10 +196,9 @@ function process(jsonStr) {
                   })
                   }
                   </tr>
-                    
                   </tbody>
                 </table></td></tr>
-                <tr><th className="text-center h3"> Item Scores </th></tr> <tr><td>
+                <tr><th className="text-center h3"> Item Scores </th></tr><tr><td>
                 <table className="table table-sm">
                   <thead>
                   <tr><th>Items to remove</th>
@@ -173,12 +215,11 @@ function process(jsonStr) {
                           {Object.values(value).map(val => ( <td key={val}>{val}</td>))}</tr>
 
                     })}
-
                     <tr><th></th><th>Total items</th><th colSpan='2'>Averages</th></tr>
                 <tr><th>{<button type="button" className="btn btn-info" onClick={handle_item_change}><h5>Recalculate</h5></button>}<br></br><small className="text-danger">Items seleceted will be removed</small></th><th>{item_id.length}</th><th>{results[get_service_config(11, 'short_name')]}</th><th>{results[get_service_config(10, 'short_name')]}</th></tr>  
                   </tbody>
                 </table></td></tr>
-                <tr><th className="text-center h3"> Student Scores </th></tr> <tr><td>
+                <tr><th className="text-center h3"> Student Scores </th></tr><tr><td>
                 <table className="table table-sm">
                   <thead>
                   <tr><th>Students to remove</th>
@@ -190,7 +231,7 @@ function process(jsonStr) {
                   </thead>
                   <tbody>
                   {stud_results.map((value, index) => {                              
-                          return <tr key={index}><td>{<input className="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1" aria-label="..."></input>}</td>{Object.values(value).map(val => (<td key={val}>{val}</td>))} 
+                      return <tr key={"s"+index}><td>{<input className="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1" aria-label="..."></input>}</td>{Object.values(value).map(val => (<td key={val}>{val}</td>))}
                          
                   </tr>
                     })}
@@ -198,7 +239,6 @@ function process(jsonStr) {
                     <tr><th>{<button type="button" className="btn btn-info"onClick={handle_student_change}><h5>Recalculate</h5></button>}<br></br><small className="text-danger">Students seleceted will be removed</small></th><th>{stud_scores.length}</th><th>{results[get_service_config(5, 'short_name')]}</th><th>{results[get_service_config(8, 'short_name')]}</th></tr>
                   </tbody>
                 </table>
-
                 </td></tr></tbody>
                 </table>
 
