@@ -16,20 +16,16 @@ export default function Analyze() {
       console.log(jsonStr)
   }    
 
-
-    // eslint-disable-next-line
-      const handleClick =  e => {
-
-      };
       const handleExport = e =>{
         saveJSON("jsonStr", "downloadJSON")
-      };
+      }
       const handleExportResult = e =>{
         saveJSON("resultStr", "downloadResult")
-      };
+      }
       const handleExportCSV = e =>{
         fnExcelReport("output", "result")
-      };
+      }
+
       // Csv upload
       const handleDropC = acceptedFiles =>{
         document.getElementById("btn1").style.display = "none";
@@ -128,8 +124,9 @@ export default function Analyze() {
                        className="btn btn-warning btn-lg" value="Save Input JSON"
                        title="Download"
                        onClick= {handleExport} />
+                       <button type="button" className="btn btn-info btn-lg" style={{display: 'none'}} onClick >Calculte</button>
                 </div> 
-                           
+                      
 
     </div>
     </div>
