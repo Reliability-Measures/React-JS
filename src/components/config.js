@@ -12,6 +12,7 @@ let config = {
     'application_short_name': 'rm_microservices',
     'service_url': 'http://api.reliabilitymeasures.com/',
     'test_url': 'http://127.0.0.1:5000/',
+    'sample_method': 'sample/',
     'services': [
         // use the shot_name key for service path and in response key.
         // Must follow Python/JS variable rules
