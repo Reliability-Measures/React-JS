@@ -124,7 +124,7 @@ export default function Analyze() {
                        className="btn btn-warning btn-lg" value="Save Input JSON"
                        title="Download"
                        onClick= {handleExport} />
-                       <button type="button" className="btn btn-info btn-lg" style={{display: 'none'}} onClick >Calculte</button>
+                       <button type="button" className="btn btn-info btn-lg" style={{display: 'none'}} >Calculte</button>
                 </div> 
                       
 
