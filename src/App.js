@@ -2,16 +2,11 @@ import React from 'react'
 import './App.css'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-import EnterlistSTD from './components/enterlistSTD'
-import EnterlistPropo from './components/enterlistPropo'
-import EnterlistSum from './components/enterlistSum'
-import Kr20 from './components/kr20'
 //import Home from './components/Home'
 import Error from './components/Error'
 //import Navigation from './components/Navigation'
-import Pbcc from './components/pbcc'
-import Testdata from './components/Testdata'
 import Analyze from './components/Analyze'
+import Analyze_Test from './components/Analyze_test'
 import {get_config} from './components/config'
 
 function App() {
@@ -24,14 +19,8 @@ function App() {
         {/* <div><Navigation /></div> */}
         
           <Switch>
-            <Route path="/" component={Analyze} exact />
-            <Route path="/std" component={EnterlistSTD} />
-            <Route path="/sum" component={EnterlistSum} />
-            <Route path="/prop" component={EnterlistPropo} />
-            <Route path="/kr20" component={Kr20} />
-            <Route path="/pbcc" component={Pbcc} />
-            <Route path="/testdata" component={Testdata} />
-            <Route path="/analyze" component={Analyze} />
+            <Route path="/" component={Analyze_Test} exact />
+            <Route path="/old" component={Analyze} exact />
             <Route component={Error} />
           </Switch>
        
