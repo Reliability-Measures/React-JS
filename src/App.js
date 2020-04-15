@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 //import Home from './components/Home'
 import Error from './components/Error'
-//import Navigation from './components/Navigation'
+import Navigation from './components/Navigation'
 import Analyze from './components/Analyze'
 import Analyze_Test from './components/Analyze_test'
 import {get_config} from './components/config'
@@ -16,7 +16,7 @@ function App() {
         <header className="App-header">
             {get_config('application_name')}
         </header>
-        {/* <div><Navigation /></div> */}
+         <div><Navigation /></div> 
         
           <Switch>
             <Route path="/" component={Analyze_Test} exact />
