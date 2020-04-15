@@ -13,6 +13,7 @@
     "csvtojson": "^2.0.10",
     "file-type": "^14.1.4",
     "http-proxy-middleware": "^1.0.3",
+    "jquery": "^3.5.0",
     "json2csv": "^5.0.0",
     "material-table": "^1.57.2",
     "react": "^16.13.1",
