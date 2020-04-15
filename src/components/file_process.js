@@ -86,32 +86,18 @@ function process(jsonStr, tab) {
   const handle_item_change = e =>{
     let values = [].filter.call(document.getElementsByName('removeitem[]'), (c) => c.checked).map(c => c.value );
     values = values.map(Number)
-    console.log(values)  
-    
     jsonStr.exclude_items = values
-    process(jsonStr, "updated_results")
-    // values.map(val => {
-    //   //console.log(val, document.getElementById("id-"+val))
-    //   document.getElementById("id-"+val).checked = false
-    //   document.getElementById("is-"+val).className = ""
-    //   return val
-    // })
-    document.getElementById("updated_head").style.display = "";
-   
-  }
-  
-  
 
-  const handle_student_change = e =>{
-    let values = [].filter.call(document.getElementsByName('removestudent[]'), (c) => c.checked).map(c => c.value );
+    values = [].filter.call(document.getElementsByName('removestudent[]'), (c) => c.checked).map(c => c.value );
     values = values.map(Number)
-    console.log(values)  
-    
     jsonStr.exclude_students = values
+
     process(jsonStr, "updated_results")
+
+    document.getElementById("updated_head").style.display = "";
+    document.getElementById("result_head").className = "col-md-6";
   }
-
-
+  
     console.log(jsonStr)
     let url = get_config('test_url') + get_service_config(6, 'api_method')
     if (jsonStr===null) {
@@ -140,12 +126,15 @@ function process(jsonStr, tab) {
             }
             else {
               document.getElementById("resultStr").innerHTML = JSON.stringify(response.data.analysis)
+              document.getElementById("updated_head").style.display = "none";
+              document.getElementById("result_head").className = "col-md-12";
             }
             document.getElementById("btn1").style.display = ""
             document.getElementById("btn2").style.display = ""
             document.getElementById("btn3").style.display = ""
             document.getElementById("btn4").style.display = ""
             document.getElementById("btn5").style.display = ""
+            document.getElementById("result_head").style.display = "";
             console.log(jsonStr)
             let jsonStr2 = JSON.parse(JSON.stringify(jsonStr))
 
@@ -275,7 +264,7 @@ function process(jsonStr, tab) {
                           return <td key={index}>{val}</td>})}
                           </tr> 
                     })}
-                    <tr><th>Total items</th><th colSpan='2'>Averages</th></tr>
+                    <tr><th>Total items</th><th colSpan='3'>Averages</th></tr>
                   <tr>{tab==='results'?<th><button type="button" className="btn btn-sm btn-info" onClick={handle_item_change}><h5>Recalculate</h5></button><br></br><small className="text-danger">Items seleceted will be removed</small>
                 </th>:""}<th>{item_id.length}</th><th>{results[get_service_config(11, 'short_name')]}</th><th>{results[get_service_config(10, 'short_name')]}</th></tr>  
                   </tbody>
@@ -301,9 +290,9 @@ function process(jsonStr, tab) {
                     })}
                     <tr>
                       <th>Total students</th>
-                      <th colSpan='2'>Averages</th>
+                      <th colSpan='3'>Averages</th>
                       </tr>
-                    <tr>{tab==='results'?<th>{<button type="button" className="btn btn-sm btn-info" onClick={handle_student_change}><h5>Recalculate</h5></button>}<br></br><small className="text-danger">Students seleceted will be removed</small></th>:""}
+                    <tr>{tab==='results'?<th>{<button type="button" className="btn btn-sm btn-info" onClick={handle_item_change}><h5>Recalculate</h5></button>}<br></br><small className="text-danger">Students seleceted will be removed</small></th>:""}
                     <th>{stud_scores.length}</th><th>{results[get_service_config(5, 'short_name')]}</th><th>{results[get_service_config(8, 'short_name')]}</th>
                     </tr>
                   </tbody>
@@ -316,13 +305,14 @@ function process(jsonStr, tab) {
             ReactDOM.render(resulttable, document.getElementById(tab))
             //console.log(results.exclude)
             let exclude = results.exclude
-            console.log(exclude)
-            exclude.map(val => {
-              //console.log(val, document.getElementById("id-"+val))
-              document.getElementById("id-"+val).checked = true
-              document.getElementById("is-"+val).className = "bg-light"
-              return val
-            }) 
+            if (tab==="results"){
+              exclude.map(val => {
+                //console.log(val, document.getElementById("id-"+val))
+                document.getElementById("id-"+val).checked = true
+                document.getElementById("is-"+val).className = "bg-light"
+                return val
+              })
+            } 
         })
         .catch(function (error) {
             console.log(error)

@@ -137,7 +137,7 @@ export default function Analyze_Test() {
 
     </div>
     </div>
-    <div className="card col-md-6">
+    <div className="card col-md-12" id = "result_head" style={{display: 'none'}}>
     <div className="card-header bg-info text-white h2">
                 Results
             </div>  
