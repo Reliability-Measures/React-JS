@@ -14,13 +14,8 @@ const Navigation = () => {
         <div className="collapse navbar-collapse" id="navbarMenu">
           <ul className="navbar nav">
             <li className="nav-item">
-              <NavLink className="nav-link nac" to="/std">Standard Deviaton</NavLink>
-              <NavLink className="nav-link nac" to="/sum">Summation</NavLink>
-              <NavLink className="nav-link nac" to="/prop">Proportion</NavLink>
-              <NavLink className="nav-link nac" to="/kr20">Kr20</NavLink>
-              <NavLink className="nav-link nac" to="/pbcc">Pbcc</NavLink>
-              <NavLink className="nav-link nac" to="/testdata">Testdata</NavLink>
-              <NavLink className="nav-link nac" to="/test">Test</NavLink>
+              <NavLink className="nav-link nac" to="/">Analyze</NavLink>
+              <NavLink className="nav-link nac" to="/old">Analyze old</NavLink>
             </li>
           </ul>
         </div>
