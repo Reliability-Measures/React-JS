@@ -16,7 +16,7 @@ function App() {
         <header className="App-header">
             {get_config('application_name')}
         </header>
-         <div><Navigation /></div> 
+         {/*<div><Navigation /></div> */}
         
           <Switch>
             <Route path="/" component={Analyze_Test} exact />
