@@ -5,6 +5,7 @@ import {get_service_config, get_config} from './config'
 
 
 
+
 function process(jsonStr, tab) {
 
   const handle_item_click = e =>{
@@ -55,11 +56,13 @@ function process(jsonStr, tab) {
       let field = document.getElementById("inp-" + a)
       let val = document.getElementById("val-" + a)
       let chg = document.getElementById("chg-" + a)
+      let cancel = document.getElementById("cn-"+a)
 
       edit.style.display = ""
       save.style.display = "none"
       val.style.display = ""
       field.style.display = "none"
+      cancel.style.display = "none"
       // update jsonStr
       console.log(chg.value, chg.defaultValue)
       if (chg.value.length !== chg.defaultValue.length) {
@@ -176,11 +179,11 @@ function process(jsonStr, tab) {
             let stud_heads = ['Student Id', get_service_config(4, 'name'), get_service_config(7, 'name')]
             let stud_scores = Object.values(results[stud_keys[0]])
             let stud_wscores = Object.values(results[stud_keys[1]])
-            let stud_id = Object.values(jsonStr.student_list)
-            //let student_id = Object.keys(results[stud_keys[0]])
+            let stud_id = Object.keys(results[stud_keys[0]])
+            stud_id = stud_id.map(Number)
             let stud_results = []
             for (let i=0;i<stud_scores.length;i++) {
-                stud_results.push([stud_id[i].id, stud_scores[i], stud_wscores[i]])
+                stud_results.push([stud_id[i], stud_scores[i], stud_wscores[i]])
             }
 
             const inputtable = (
@@ -244,7 +247,9 @@ function process(jsonStr, tab) {
                   </tr>
                   </tbody>
                 </table></td></tr>
-                <tr><th colSpan="5" className="text-center h3">Item Scores</th></tr><tr>
+                <tr>
+                  {/* {results.exclude.length > 0 && <th className ="text-danger">Item Errors</th>} */}
+                  <th colSpan='2' className="h3">Item Measures</th></tr><tr>
                   <td>
                 <table className="table table-sm">
                   <thead>
@@ -258,14 +263,14 @@ function process(jsonStr, tab) {
                   <tbody>
                   {item_results.map((value, index) => {                              
                           return  <tr id={'is-'+value[0]}key={index}>
-                          {tab==='results'?<td>{<input className="form-check-input position-static" onClick={handle_item_click}
+                          {tab==='results'?<td>{<input className="form-check-input position-static" data-toggle="tooltip" data-placement="top" title="Checked items will be removed" onClick={handle_item_click}
                           type="checkbox" name="removeitem[]" id={"id-" + value[0]} value={value[0]} aria-label="..."></input>}</td> : ""}
                           {Object.values(value).map((val,index) => {
                           return <td key={index}>{val}</td>})}
                           </tr> 
                     })}
                     <tr><th>Total items</th><th colSpan='3'>Averages</th></tr>
-                  <tr>{tab==='results'?<th><button type="button" className="btn btn-sm btn-info" onClick={handle_item_change}><h5>Recalculate</h5></button><br></br><small className="text-danger">Items seleceted will be removed</small>
+                  <tr>{tab==='results'?<th><button type="button" className="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Recalulate with checked items removed" onClick={handle_item_change}><h5>Recalculate</h5></button><br></br><small className="text-danger">Items checked will be removed</small>
                 </th>:""}<th>{item_id.length}</th><th>{results[get_service_config(11, 'short_name')]}</th><th>{results[get_service_config(10, 'short_name')]}</th></tr>  
                   </tbody>
                 </table></td></tr>
@@ -292,7 +297,7 @@ function process(jsonStr, tab) {
                       <th>Total students</th>
                       <th colSpan='3'>Averages</th>
                       </tr>
-                    <tr>{tab==='results'?<th>{<button type="button" className="btn btn-sm btn-info" onClick={handle_item_change}><h5>Recalculate</h5></button>}<br></br><small className="text-danger">Students seleceted will be removed</small></th>:""}
+                    <tr>{tab==='results'?<th>{<button type="button" className="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Recalulate with checked students removed" onClick={handle_item_change}><h5>Recalculate</h5></button>}<br></br><small className="text-danger">Students checked will be removed</small></th>:""}
                     <th>{stud_scores.length}</th><th>{results[get_service_config(5, 'short_name')]}</th><th>{results[get_service_config(8, 'short_name')]}</th>
                     </tr>
                   </tbody>
@@ -303,16 +308,16 @@ function process(jsonStr, tab) {
           )
             ReactDOM.render(inputtable, document.getElementById('input'))
             ReactDOM.render(resulttable, document.getElementById(tab))
-            //console.log(results.exclude)
+            console.log(results.exclude)
             let exclude = results.exclude
             if (tab==="results"){
               exclude.map(val => {
                 //console.log(val, document.getElementById("id-"+val))
                 document.getElementById("id-"+val).checked = true
-                document.getElementById("is-"+val).className = "bg-light"
+                document.getElementById("is-"+val).className = "bg-light text-danger h6"
                 return val
               })
-            } 
+            }
         })
         .catch(function (error) {
             console.log(error)

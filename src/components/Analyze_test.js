@@ -129,7 +129,7 @@ export default function Analyze_Test() {
                <div className="text-center col-md-12">
                 <a id="downloadJSON" href=" " style={{display: 'none'}}> </a>
                 <input type="button" id="btn1" style={{display: 'none'}}
-                       className="btn btn-sm btn-warning" value="Save Input JSON"
+                       className="btn btn-sm btn-info" value="Save Input JSON"
                        title="Download"
                        onClick= {handleExport} />
                 </div> 
