@@ -10,10 +10,10 @@ import {process} from './file_process'
 export default function Analyze_Test() {
   const [fileNames, setFileNames] = useState([]);
   
-    const handleSampleServer = e =>{
-      e.preventDefault();      
-      process(null, "results")
-  }    
+     const handleSampleServer = e =>{
+          e.preventDefault();
+          process(null, "results")
+      }
 
       const handleExport = e =>{
         saveJSON("jsonStr", "downloadJSON")
@@ -126,7 +126,8 @@ export default function Analyze_Test() {
               <div id="input">
                
               </div>
-               <div className="text-center col-md-12">
+               <div className="text-right col-md-12">
+
                 <a id="downloadJSON" href=" " style={{display: 'none'}}> </a>
                 <input type="button" id="btn1" style={{display: 'none'}}
                        className="btn btn-sm btn-info" value="Save Input JSON"

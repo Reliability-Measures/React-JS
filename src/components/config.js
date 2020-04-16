@@ -4,12 +4,12 @@
 
 let config = {
     'application_id': 'rm_01',
-    'application_version': '0.1.5',
+    'application_version': '0.1.6',
     'application_name': 'Reliability Measures microservices',
     'application_short_name': 'rm_microservices',
     'application_form': 'Calculate Exam Reliability',
     'service_url': 'http://api.reliabilitymeasures.com/',
-    'test_url': 'http://localhost:5000/',
+    'test_url': 'http://localhost:5001/',
     'sample_method': 'sample/',
     'keywords': {
             'item_responses': 'item_responses',

@@ -10,12 +10,12 @@ function process(jsonStr, tab) {
 
   const handle_item_click = e =>{
     let id = document.getElementById("id-"+e.target.value)
-    if (id.checked===true) {document.getElementById("is-"+e.target.value).className = "bg-light"} 
+    if (id.checked===true) {document.getElementById("is-"+e.target.value).className = "bg-light text-danger strong"}
     else {document.getElementById("is-"+e.target.value).className = ""}
   }
   const handle_student_click = e =>{
     let id = document.getElementById("st-"+e.target.value)
-    if (id.checked===true) {document.getElementById("sd"+e.target.value).className = "bg-light"} 
+    if (id.checked===true) {document.getElementById("sd"+e.target.value).className = "bg-light text-danger strong"}
     else {document.getElementById("sd"+e.target.value).className = ""}
   }
 
@@ -83,10 +83,12 @@ function process(jsonStr, tab) {
         
   }
   const handle_save_changes = e =>{
-     process(jsonStr, "updated_results")
-     document.getElementById("btn1").style.display = ""
+         jsonStr.exclude_items = []
+         jsonStr.exclude_students = []
+         process(jsonStr, "results")
+         document.getElementById("btn1").style.display = ""
   }
-  const handle_item_change = e =>{
+  const handle_recalculate = e =>{
     let values = [].filter.call(document.getElementsByName('removeitem[]'), (c) => c.checked).map(c => c.value );
     values = values.map(Number)
     jsonStr.exclude_items = values
@@ -102,9 +104,9 @@ function process(jsonStr, tab) {
   }
   
     console.log(jsonStr)
-    let url = get_config('test_url') + get_service_config(6, 'api_method')
+    let url = get_config('service_url') + get_service_config(6, 'api_method')
     if (jsonStr===null) {
-        url= get_config('test_url') + get_config('sample_method')
+        url= get_config('service_url') + get_config('sample_method')
     }
     document.getElementById("input").style.display = "";
     const options = {
@@ -190,7 +192,7 @@ function process(jsonStr, tab) {
                         <div><br></br>
                         <div className="text-center h3">{jsonStr.exam.name}</div>
                         <table className="table table-sm">
-                        <caption className="text-right">{<button type="button" className="btn btn-sm btn-info" onClick={handle_save_changes}>Apply changes</button>}</caption>
+                        {<caption className="text-right">{<button type="button" className="btn btn-sm btn-info" onClick={handle_save_changes}>Apply changes</button>}</caption>}
                         <thead>
                           <tr>
                           {[jsonStr2.student_list[0]].map(value  => (                              
@@ -208,7 +210,7 @@ function process(jsonStr, tab) {
                                           <td key={val}><span
                                               id={"val-" + (index + 1)}>{val}</span>
                                               <span id={"inp-" + (index + 1)}
-                                                    style={{display: 'none'}}><input id={"chg-" + (index + 1)} size={item_id.length * 1.5} type="text" defaultValue={val}></input></span>
+                                                    style={{display: 'none'}}><input id={"chg-" + (index + 1)} size={item_id.length * 1.7} type="text" defaultValue={val}></input></span>
                                           </td> : <td key={val}>{val}</td>
                                   }
                               )
@@ -270,7 +272,7 @@ function process(jsonStr, tab) {
                           </tr> 
                     })}
                     <tr><th>Total items</th><th colSpan='3'>Averages</th></tr>
-                  <tr>{tab==='results'?<th><button type="button" className="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Recalulate with checked items removed" onClick={handle_item_change}><h5>Recalculate</h5></button><br></br><small className="text-danger">Items checked will be removed</small>
+                  <tr>{tab==='results'?<th><button type="button" className="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Recalculate with checked items removed" onClick={handle_recalculate}><h5>Recalculate</h5></button><br></br><small className="text-danger">Items checked will be removed</small>
                 </th>:""}<th>{item_id.length}</th><th>{results[get_service_config(11, 'short_name')]}</th><th>{results[get_service_config(10, 'short_name')]}</th></tr>  
                   </tbody>
                 </table></td></tr>
@@ -297,7 +299,7 @@ function process(jsonStr, tab) {
                       <th>Total students</th>
                       <th colSpan='3'>Averages</th>
                       </tr>
-                    <tr>{tab==='results'?<th>{<button type="button" className="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Recalulate with checked students removed" onClick={handle_item_change}><h5>Recalculate</h5></button>}<br></br><small className="text-danger">Students checked will be removed</small></th>:""}
+                    <tr>{tab==='results'?<th>{<button type="button" className="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Recalculate with checked students removed" onClick={handle_recalculate}><h5>Recalculate</h5></button>}<br></br><small className="text-danger">Students checked will be removed</small></th>:""}
                     <th>{stud_scores.length}</th><th>{results[get_service_config(5, 'short_name')]}</th><th>{results[get_service_config(8, 'short_name')]}</th>
                     </tr>
                   </tbody>
@@ -314,7 +316,7 @@ function process(jsonStr, tab) {
               exclude.map(val => {
                 //console.log(val, document.getElementById("id-"+val))
                 document.getElementById("id-"+val).checked = true
-                document.getElementById("is-"+val).className = "bg-light text-danger h6"
+                document.getElementById("is-"+val).className = "bg-light text-danger strong"
                 return val
               })
             }
