@@ -7,13 +7,14 @@ import { get_config, fnExcelReport,
 
 import {process} from './file_process'
 
+
 export default function Analyze_Test() {
   const [fileNames, setFileNames] = useState([]);
-  
+
      const handleSampleServer = e =>{
-          e.preventDefault();
-          process(null, "results")
-      }
+        e.preventDefault();
+        process(null, "results")
+        }
 
       const handleExport = e =>{
         saveJSON("jsonStr", "downloadJSON")
@@ -83,14 +84,13 @@ export default function Analyze_Test() {
                
             }
             if (jsonStr) {
-                process(jsonStr, "results")
-                
+                process(jsonStr, "results")  
             }
         })
         }
         acceptedFiles.forEach(file => reader.readAsBinaryString(file))
       }
-      
+
   return (
     <React.Fragment>
      <div className="row">
@@ -122,9 +122,9 @@ export default function Analyze_Test() {
               </div>
                 </div>
                 )}
-              </Dropzone>  
+              </Dropzone>
               <div id="input">
-               
+              
               </div>
                <div className="text-right col-md-12">
 
@@ -184,14 +184,10 @@ export default function Analyze_Test() {
          </div>         
             </div>
     </div>
-          
          <span id="jsonStr" style={{display: 'none'}}></span>
          <span id="resultStr" style={{display: 'none'}}></span>
          <span id="updatedresultStr" style={{display: 'none'}}></span>
-
-         
         </div>
     </React.Fragment>
-    
   );
 }

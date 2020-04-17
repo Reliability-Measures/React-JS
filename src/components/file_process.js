@@ -5,9 +5,7 @@ import {get_service_config, get_config} from './config'
 
 
 
-
 function process(jsonStr, tab) {
-
   const handle_item_click = e =>{
     let id = document.getElementById("id-"+e.target.value)
     if (id.checked===true) {document.getElementById("is-"+e.target.value).className = "bg-light text-danger strong"}
@@ -102,7 +100,6 @@ function process(jsonStr, tab) {
     document.getElementById("updated_head").style.display = "";
     document.getElementById("result_head").className = "col-md-6";
   }
-  
     console.log(jsonStr)
     let url = get_config('service_url') + get_service_config(6, 'api_method')
     if (jsonStr===null) {
@@ -167,13 +164,15 @@ function process(jsonStr, tab) {
             let item_heads = ['item id', get_service_config(2, 'name'), get_service_config(3, 'name'), get_service_config(12, 'name')] 
             let idrs = Object.values(results[item_keys[0]])
             let diff = Object.values(results[item_keys[1]])
-            let item_id = Object.keys(results[item_keys[0]])
+            let item_id = Object.keys(results[item_keys[1]])
             let num_correct = Object.values(results[item_keys[2]])
             
 
             let item_results = []
             for (let i=0;i<item_id.length;i++) {
-                item_results.push([item_id[i], idrs[i], diff[i],num_correct[i]])
+              let idr = idrs[i]
+              if (typeof(idr) === "string") { idr ='NA'}
+              item_results.push([item_id[i], idr, diff[i],num_correct[i]])
             }
             console.log(item_results)
 
@@ -183,11 +182,12 @@ function process(jsonStr, tab) {
             let stud_wscores = Object.values(results[stud_keys[1]])
             let stud_id = Object.keys(results[stud_keys[0]])
             stud_id = stud_id.map(Number)
+            
             let stud_results = []
             for (let i=0;i<stud_scores.length;i++) {
-                stud_results.push([stud_id[i], stud_scores[i], stud_wscores[i]])
+              stud_results.push([stud_id[i], stud_scores[i], stud_wscores[i]])
             }
-
+            
             const inputtable = (
                         <div><br></br>
                         <div className="text-center h3">{jsonStr.exam.name}</div>
@@ -321,20 +321,14 @@ function process(jsonStr, tab) {
               })
             }
         })
+        
         .catch(function (error) {
             console.log(error)
             alert(error)
         })
 
-       
+        
         return jsonStr
-} 
-
-// const handlesample = e =>{
-//     e.preventDefault();
-//     let jsonStr = require('./data/data.json')
-//     console.log(jsonStr)
-//     process(jsonStr)
-// }   
+}   
 
 export {process}
