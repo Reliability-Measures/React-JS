@@ -4,7 +4,7 @@ import './components.css'
 import csv from "csv";
 import Dropzone from 'react-dropzone'
 //import MaterialTable from "material-table"
-import {get_service_config, get_config, convertToArrayOfObjects} from './config'
+import {get_service_config, get_config, convertToArrayOfObjects} from '../config'
 
 export default function Test() {
   const [fileNames, setFileNames] = useState([]);

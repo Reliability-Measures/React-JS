@@ -3,23 +3,38 @@
 // all keys are lower case, Use underscore for longer keys
 
 let config = {
-    'cloud_host': 'xxx',
-    'cloud_host_credentials':'yyyy',
     'application_id': 'rm_01',
-    'application_version': '0.0.2',
-    'application_form': 'Calculate Exam Reliability',
+    'application_version': '0.1.6',
     'application_name': 'Reliability Measures microservices',
     'application_short_name': 'rm_microservices',
+    'application_form': 'Calculate Exam Reliability',
     'service_url': 'http://api.reliabilitymeasures.com/',
-    'test_url': 'http://127.0.0.1:5000/',
+    'test_url': 'http://localhost:5001/',
     'sample_method': 'sample/',
+    'keywords': {
+            'item_responses': 'item_responses',
+            'student_list': 'student_list',
+            'item_id': 'item_id',
+            'response': 'response',
+            'exclude_items': 'exclude_items',
+            'id': 'id',
+
+            'exclude_threshold_1': 0.09,
+            'exclude_threshold_2': 0,
+            'exclude_length_1': 0.5,
+            'exclude_length_2': 0.8,
+            'bad_exam': 'bad_exam',
+
+            'bad_std': 'Invalid data - No Std. Dev.',
+            'bad_mean': 'Invalid data - No mean'
+    },  
     'services': [
         // use the shot_name key for service path and in response key.
         // Must follow Python/JS variable rules
         {'id': 0},  // left  empty on purpose
         {
             'id': 1,
-            'name': 'KR20',
+            'name': 'kr20',
             'short_name': 'kr20',
             'description': 'KR20 value',
             'type': 'float'
@@ -40,14 +55,14 @@ let config = {
         },
         {
             'id': 4,
-            'name': 'Scores',
+            'name': 'scores',
             'short_name': 'scores',
             'description': 'Test scores',
             'type': 'list of floats'
         },
         {
             'id': 5,
-            'name': 'Average',
+            'name': 'average',
             'short_name': 'average',
             'description': 'Student Average',
             'type': 'list of floats'
@@ -78,8 +93,8 @@ let config = {
             'id': 9,
             'name': 'exclude_items',
             'short_name': 'exclude',
-            'description': 'Items to exclude based on IDr',
-            'type': 'list of ints'  // item id might not be only ints?
+            'description': 'Items to exclude based on idr',
+            'type': 'list of item ids'
         },
         {
             'id': 10,
@@ -94,8 +109,22 @@ let config = {
             'short_name': 'idr_avg',
             'description': 'The average item discrimination',
             'type': 'float'
-        }        
-    ]
+        },
+        {
+            'id': 12,
+            'name': 'Correct responses',
+            'short_name': 'num_correct',
+            'description': 'The absolute number of an item\'s correct responses',
+            'type': 'list of ints'
+        },
+        {
+            'id': 13,
+            'name': 'student_response_assumptions',
+            'short_name': 'assumptions',
+            'description': 'The assumption of the score 0 for items that the student does not have a response for',
+            'type': 'dictionary of item ids'
+        }
+    ] 
 }
 
 

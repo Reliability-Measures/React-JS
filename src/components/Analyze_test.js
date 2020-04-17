@@ -7,13 +7,14 @@ import { get_config, fnExcelReport,
 
 import {process} from './file_process'
 
-export default function Analyze() {
+
+export default function Analyze_Test() {
   const [fileNames, setFileNames] = useState([]);
-  
-    const handleSampleServer = e =>{
-      e.preventDefault();      
-      process(null, "results")
-  }    
+
+     const handleSampleServer = e =>{
+        e.preventDefault();
+        process(null, "results")
+        }
 
       const handleExport = e =>{
         saveJSON("jsonStr", "downloadJSON")
@@ -22,7 +23,13 @@ export default function Analyze() {
         saveJSON("resultStr", "downloadResult")
       }
       const handleExportCSV = e =>{
-        fnExcelReport("output", "result")
+        fnExcelReport("output-results", "result")
+      }
+      const handleupExportResult = e =>{
+        saveJSON("updatedresultStr", "downloadResult")
+      }
+      const handleupExportCSV = e =>{
+        fnExcelReport("output-updated_results", "result")
       }
 
       // Csv upload
@@ -30,6 +37,8 @@ export default function Analyze() {
         document.getElementById("btn1").style.display = "none";
         document.getElementById("btn2").style.display = "none";
         document.getElementById("btn3").style.display = "none";
+        document.getElementById("btn4").style.display = "none";
+        document.getElementById("btn5").style.display = "none";
         setFileNames(acceptedFiles.map(file => file.name))
         const reader = new FileReader();
         reader.onabort = () => console.log("file reading was aborted");
@@ -75,19 +84,18 @@ export default function Analyze() {
                
             }
             if (jsonStr) {
-                process(jsonStr, "results")
-                
+                process(jsonStr, "results")  
             }
         })
         }
         acceptedFiles.forEach(file => reader.readAsBinaryString(file))
       }
-      
+
   return (
     <React.Fragment>
      <div className="row">
 
-        <div className="card text-center col-md-7">
+        <div className="card text-center col-md-12">
             <div className="card-header bg-info text-white h2">
                 {get_config('application_form')} (v {get_config('application_version')})
             </div>
@@ -114,14 +122,15 @@ export default function Analyze() {
               </div>
                 </div>
                 )}
-              </Dropzone>  
+              </Dropzone>
               <div id="input">
-               
+              
               </div>
-               <div className="text-center col-md-12">
+               <div className="text-right col-md-12">
+
                 <a id="downloadJSON" href=" " style={{display: 'none'}}> </a>
                 <input type="button" id="btn1" style={{display: 'none'}}
-                       className="btn btn-sm btn-warning" value="Save Input JSON"
+                       className="btn btn-sm btn-info" value="Save Input JSON"
                        title="Download"
                        onClick= {handleExport} />
                 </div> 
@@ -129,36 +138,13 @@ export default function Analyze() {
 
     </div>
     </div>
-    <div className="card col-md-5">
+    <div className="card col-md-12" id = "result_head" style={{display: 'none'}}>
     <div className="card-header bg-info text-white h2">
                 Results
             </div>  
-            <div className="card-body">          
-        <div className="text-center">
-            <button type="button" className="btn btn-danger btn-lg"
-                    style={{display: 'none'}}
-                    variant="contained">
-            Compute 
-            </button>
-        </div>
-
-     <div className="text-center"> <br></br>
-          <ul className="nav nav-tabs">
-          <li className="nav-item">
-            <a className="nav-link active" data-toggle="tab" href="#results">Results</a>
-          </li>
-          <li className="nav-item" id="updated_results_tab" style={{display: 'none'}}>
-            <a className="nav-link" data-toggle="tab" href="#updated_results">Updated results</a>
-          </li>
-        </ul>
-        <div className="tab-content"><br></br>
-        <div id="results" className="container tab-pane active"></div>
-        <div id="updated_results" className="container tab-pane fade"></div>
-        </div>
-
-         <span id="jsonStr" style={{display: 'none'}}></span>
-         <span id="resultStr" style={{display: 'none'}}></span>
-         <div className="row">
+            <div className="card-body">
+            <div id="results"></div> 
+            <div className="row">
                 <div className="col">
                 <a id="downloadResult" href=" " style={{display: 'none'}}> </a>
                 <button  id="btn2" style={{display: 'none'}}
@@ -172,16 +158,36 @@ export default function Analyze() {
                        title="Download Excel"
                        onClick= {handleExportCSV}>Export Excel <i className="fas fa-file-excel"></i></button>
                 </div>
-         </div>
-
-        {/* <h5 id="jsoninput"> </h5> */}
-
+         </div>         
+            </div>
+    </div>
+    <div className="card col-md-6" id="updated_head" style={{display: 'none'}}>
+    <div className="card-header bg-info text-white h2">
+                Updated Results
+            </div>  
+            <div className="card-body">
+            <div id="updated_results"></div> 
+            <div className="row">
+                <div className="col">
+                <a id="downloadResult" href=" " style={{display: 'none'}}> </a>
+                <button  id="btn4" style={{display: 'none'}}
+                       className="btn btn-md btn-success" value="Save Result JSON"
+                       title="Download JSON"
+                       onClick= {handleupExportResult}>Export JSON  <i className="fas fa-file-download"></i></button>
+                </div>
+                <div className="col">
+                <button id="btn5" style={{display: 'none'}}
+                       className="btn btn-md btn-success" value="Save Excel"
+                       title="Download Excel"
+                       onClick= {handleupExportCSV}>Export Excel <i className="fas fa-file-excel"></i></button>
+                </div>
+         </div>         
+            </div>
+    </div>
+         <span id="jsonStr" style={{display: 'none'}}></span>
+         <span id="resultStr" style={{display: 'none'}}></span>
+         <span id="updatedresultStr" style={{display: 'none'}}></span>
         </div>
-     </div>    
-    </div>
-    </div>
- 
     </React.Fragment>
-    
   );
 }
